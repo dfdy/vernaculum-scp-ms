@@ -1,12 +1,28 @@
 # How Vernaculum could learn from the agent-tool ecosystem
 
-**Vernaculum SCP:MS v1.0.0 — Accepted / Active / Stable.**
+**Vernaculum SCP:MS v1.1.0 — Accepted / Active / Stable.**
 
 Vernaculum supplies a voluntary shared language for agents, durable knowledge and continuity. Adjacent tools could make collaboration easier without expanding the specification into a transport, runtime or security system. This exploration considers where each tool could help, what Vernaculum could learn from it, and where the boundary belongs.
 
 This document is non-normative. The [complete canonical specification on main](https://github.com/dfdy/vernaculum-scp-ms/blob/main/PROTOCOL.md) governs. The integrations below are possibilities, not implemented features or interoperability claims. Linked project documentation describes the adjacent capabilities; applying them to Vernaculum is an assessment. A deployment would need to select and check the particular versions it uses.
 
-## Start with the v1.0.0 contract
+The recommendation under the current contract is to begin with existing permitted communication, source retrieval and revisioned records. Add an adapter, scheduler or evaluation tool only when a concrete collaboration problem warrants it. The protocol's move away from scoped loading and required verification machinery reduces the case for building a dedicated Vernaculum platform; it strengthens the case for small, replaceable integrations around the shared language.
+
+## What the protocol changes mean for this exploration
+
+| Current contract | Consequence for tool selection |
+| --- | --- |
+| Complete specification in working context; no required loader or preflight | Tools can deliver the complete text and assist recovery. Selective retrieval and compression apply to supporting material. |
+| Release agreement through `hello` / `ready` | Adapters preserve the offered and accepted versions and reply binding. A fingerprint or capability listing cannot substitute for agreement. |
+| One inline YAML mapping with a restricted data model | Transport and generation experiments preserve the entire envelope and body, ordinary scalar types, and the exclusions in `SCP-MSG-002`. |
+| Durable-record contracts independent of storage adapters; JSON recommended | Existing files or record stores are a reasonable starting point. A database, schema service or graph engine needs a separate operational justification. |
+| Optional peer-agreed namespaced extensions | Try additional vocabulary outside the core when it preserves core meanings and permissions. Publication as an integration does not bind other peers. |
+| Owner-approved core publication and explicit session agreement | Prompt optimisation, schema generation and deployment automation cannot adopt protocol revisions on the agents' behalf. |
+| Efficiency measured by correctly completed work | Compare total collaboration cost, including the complete specification for each participant and reload, rather than advertised token savings. |
+
+These consequences follow from the current [protocol](../PROTOCOL.md), especially Sections 3–7, 9 and 10. The linked [overview](../OVERVIEW.md) still contains release-candidate structures, including a fingerprint-based `hello`, scopes and schema-validation claims; those are not the current contract and should not be used to build an adapter.
+
+## Start with the v1.1.0 contract
 
 A participating agent reads the **whole canonical Markdown specification into working context** before claiming adherence. It reloads the whole text after recognised compaction, recovery, resumption, interruption or uncertainty. A summary, checkpoint, retrieved fragment or generated representation cannot replace it. An agent unable to read it discloses that limitation.
 
@@ -58,13 +74,13 @@ Vernaculum could learn from making consequential state visible. A UI event remai
 
 [JSON Schema](https://json-schema.org/draft/2020-12) could express a deployment's record structures and agreed extension fields, or help construct message bodies. It can expose missing fields and inconsistent types without another model call.
 
-Any schema would be an optional derivative aid, not a second normative specification or a required installation. It must follow the canonical contracts, including record-kind statuses and interpretation versions. Parsing and schema success cannot establish truth, current approval, adequate task context or execution. Historical records must remain interpretable under their declared versions.
+Any schema would be an optional derivative aid, not a second normative specification or a required installation. It must follow the canonical contracts, including record-kind statuses and interpretation versions. For YAML messages, ordinary parsed-object validation is insufficient to detect duplicate keys or prohibited YAML features that a parser may discard or resolve; parsing would need to preserve or reject those features before schema checks. Parsing and schema success cannot establish truth, current approval, adequate task context or execution. Historical records must remain interpretable under their declared versions.
 
 ### XGrammar: reduce formatting errors where inference is useful
 
-[XGrammar](https://github.com/mlc-ai/xgrammar) is relevant to constrained model output. A deployment could investigate generating an internal structured proposal and converting it into the actual inline YAML message. A custom YAML grammar would need deliberate agreement on the supported representation; Vernaculum v1.0.0 does not mandate a byte-exact serializer or a particular parser library.
+[XGrammar](https://github.com/mlc-ai/xgrammar) is relevant to constrained model output. A deployment could investigate generating an internal structured proposal and converting it into the actual inline YAML message. A custom YAML grammar would need deliberate agreement on the supported representation; Vernaculum v1.1.0 does not mandate a byte-exact serializer or a particular parser library.
 
-The lesson is to avoid spending inference on repairable formatting errors. A constrained result can still contain a false assertion, inadequate instruction or unauthorised request. An internal JSON intermediate does not become an alternative wire format, and generated constraints do not replace the whole specification in the agent's context.
+The lesson is to avoid spending inference on repairable formatting errors. First compare ordinary templates and a reliable serializer with constrained generation: fixed envelopes and known values may need no model generation at all. A serializer must emit the restricted YAML data model, preserve strings such as version identifiers, and avoid anchors or tags. A constrained result can still contain a false assertion, inadequate instruction or unauthorised request. An internal JSON intermediate does not become an alternative wire format, and generated constraints do not replace the whole specification in the agent's context.
 
 ### TOON: compact repetitive supporting datasets
 
@@ -180,6 +196,15 @@ The decision is whether a technique improves correctly completed work enough to 
 This is an illustration, not a mandatory stack. Direct communication and existing project tools may already be sufficient.
 
 ## 8. Choosing what earns its place
+
+The catalogue above describes possible roles, not an adoption sequence. For an owner-governed coding team, the following order offers a more proportionate starting point:
+
+1. **Establish a baseline with existing tools.** Use the complete specification, a permitted channel, inline YAML, resolvable sources and revisioned records. Exercise a request, clarification, handoff and recovery before choosing infrastructure.
+2. **Address an observed failure or cost.** Consider a small serializer or optional validator for malformed exchanges, MCP for difficult source access, or a scheduler for recurring coordination. Add A2A or a broker when communication actually crosses systems or availability windows.
+3. **Add operational infrastructure for operational requirements.** Temporal, JetStream, external identity and policy engines become candidates when durability, delivery, identity or enforced tool policy requires them. Select the capability needed; these tools are not an implied combined stack.
+4. **Run representation and model experiments after measuring the baseline.** TOON, ISON, LLMLingua, DSPy and model routing need evidence that their conversion, evaluation and recovery costs pay off. Small messages and modest supporting datasets may leave little to improve.
+
+For the first trial, compare equivalent tasks with existing coordination and with Vernaculum using the same tools and permissions. Record task outcomes, omitted constraints, human corrections, model and tool costs, and recovery effort. Then change one integration at a time. This separates the value of the shared language from the value and overhead of its surrounding infrastructure. No such comparative results are reported here.
 
 | Need | Possible capability | Useful evidence of value |
 | --- | --- | --- |

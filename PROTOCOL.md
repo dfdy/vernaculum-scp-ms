@@ -1,9 +1,9 @@
-# Vernaculum SCP:MS v1.0.0
+# Vernaculum SCP:MS v1.1.0
 
 **Semantic Communication Protocol — Minimum-Sufficient**
 
 **Status:** Accepted / Active / Stable.  
-**Release version:** `1.0.0`.  
+**Release version:** `1.1.0`.  
 **Wire identifier:** `VERNACULUM-SCP-MS`.  
 **Scope:** Voluntary structured inter-agent communication, durable records, continuity, and protocol evolution. This specification does not provide transport, a runtime, tool permissions, or security enforcement.
 
