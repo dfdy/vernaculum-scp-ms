@@ -1,247 +1,197 @@
 # How Vernaculum could learn from the agent-tool ecosystem
 
-**Protocol: Vernaculum SCP:MS v1.0.0 — Accepted / Active / Stable.**
+**Vernaculum SCP:MS v1.0.0 — Accepted / Active / Stable.**
 
-The central opportunity is to reduce unnecessary interpretation while preserving the meaning, constraints, evidence and authority needed to complete a task. Smaller messages help only when the receiving agent still understands the task correctly. Better scheduling, reliable recovery and deterministic operations may save more work than a compact encoding.
+Vernaculum supplies a voluntary shared language for agents, durable knowledge and continuity. Adjacent tools could make collaboration easier without expanding the specification into a transport, runtime or security system. This exploration considers where each tool could help, what Vernaculum could learn from it, and where the boundary belongs.
 
-This is a non-normative exploration of possible uses and design lessons. It does not claim that these integrations exist, amend the [canonical protocol](https://github.com/dfdy/vernaculum-scp-ms/blob/main/PROTOCOL.md), or make any named product a dependency. Tool capabilities below are supported by linked primary sources; their proposed application to Vernaculum is an assessment, not a vendor interoperability claim. Documentation and interfaces evolve, so an implementation would need an explicit supported version and capability profile.
+This document is non-normative. The [complete canonical specification on main](https://github.com/dfdy/vernaculum-scp-ms/blob/main/PROTOCOL.md) governs. The integrations below are possibilities, not implemented features or interoperability claims. Linked project documentation describes the adjacent capabilities; applying them to Vernaculum is an assessment. A deployment would need to select and check the particular versions it uses.
 
-## Keep the responsibilities distinct
+## Start with the v1.0.0 contract
 
-| Responsibility | Vernaculum's contribution | Useful adjacent technologies |
-| --- | --- | --- |
-| Meaning and context | The complete governing specification, task constraints and typed relationships | JSON Schema, XGrammar, retrieval and immutable references |
-| Connections and interaction | Complete messages, compatibility negotiation and truthful outcomes | A2A, MCP, ACP, AG-UI; ANP where cross-domain identity is needed |
-| Scheduling and durability | Requirements for valid handoffs and recovery | LangGraph, Google ADK, Microsoft Agent Framework, Temporal, NATS JetStream |
-| Decisions and execution | Separation of structural validity, authority and operational preconditions | OPA and ordinary deterministic software |
-| Efficiency and observation | Correctness before brevity; total cost per correctly completed task | DSPy, LiteLLM, OpenTelemetry, Phoenix, selective compression |
+A participating agent reads the **whole canonical Markdown specification into working context** before claiming adherence. It reloads the whole text after recognised compaction, recovery, resumption, interruption or uncertainty. A summary, checkpoint, retrieved fragment or generated representation cannot replace it. An agent unable to read it discloses that limitation.
 
-These technologies are alternatives or complements at different layers. A small deployment need not adopt the entire list.
+Minimum-sufficient constrains the **specification's own size and complexity**. Separate communication rules call for concise but sufficient task exchanges, and prefer reliable authorised non-inference operations when they meet the requirement at lower expected total cost. Reducing the governing context is not an integration objective.
 
-Four boundaries shape every proposed integration:
+Agents establish release agreement with `hello` / `ready` / `need`. `hello.body.supported_versions` lists supported releases; `ready` refers to the initiating message and states its accepted version. Agreement does not authenticate a sender or prove obedience. Every governed exchange carries its complete YAML envelope and body inline through an actually permitted channel.
 
-1. **Keep the complete YAML message inline.** An outer JSON transport can carry YAML as text, but a link, attachment or translated summary cannot replace the instruction delivered to the receiving agent.
-2. **Preserve governing material.** Agents read the whole canonical specification on adoption and after recognised context loss. Retrieval may reduce supporting task material, but cannot replace governing text. A compressed summary cannot become approval or canonical policy.
-3. **Separate agreement from permission.** A version agreement, schema pass, authenticated identity or workflow status establishes only its particular fact. Execution still needs applicable authority and operational safeguards.
-4. **Reuse capabilities proportionately.** Prefer a small adapter or existing service when it satisfies a concrete need. A possible integration is not a reason to expand the normative protocol.
+Durable records preserve identity, interpretation version, revisions, sources, relationships and attribution. UTF-8 JSON is recommended for their content. Record acceptance, a successful check and an approval are distinct facts. Checkpoints preserve working claims that must be reconciled with current evidence on resumption.
+
+Peers can agree on optional `x.<namespace>.<name>` vocabulary, fields, kinds, relationships and operations within their actual permissions. Such extensions bind only consenting peers and cannot alter core meanings, obligations, permissions or historical interpretations. Proposed core changes require explicit owner-approved publication to canonical main and agreement on the applicable contract.
+
+There is no required bootstrap verifier, scoped context loader, generated normative YAML duplicate, hash manifest, amendment registry or installation gate. Optional software can assist agents or enforce host policy; it does not become part of the core by appearing in this exploration.
 
 ## 1. Communication and human interaction
 
-### A2A: agent interoperability and task lifecycles
+### A2A: carry the semantic exchange across agent systems
 
-[A2A](https://a2a-protocol.org/latest/definitions/) defines agent communication, task state, messages and content parts, including text. It is a strong candidate for carrying Vernaculum between independently implemented agents.
+[A2A](https://a2a-protocol.org/latest/definitions/) is relevant to communication between independently implemented agents. An adapter could carry a complete Vernaculum YAML message as text and present it intact to the receiving agent, correlating outer task identifiers with the inner conversation and reply identifiers.
 
-Vernaculum could use an adapter that places one complete YAML envelope in a text part and presents that decoded text unchanged to the recipient. The adapter would map outer task and message identifiers to Vernaculum conversations and reply bindings, while preserving the distinction between transport acceptance, protocol readiness and task completion. Capability discovery could advertise a supported Vernaculum profile; the actual `hello`/`ready` exchange would still establish agreement on a supported release, without proving file identity or obedience.
+The design lesson is explicit task lifecycle reporting: partial work, missing input, cancellation and completion need distinguishable meanings. An outer transport status does not replace a truthful Vernaculum response. Outer capability discovery also does not replace release agreement or establish permission. A file attachment or pointer alone cannot serve as the actionable YAML message.
 
-The useful lesson is explicit lifecycle modelling. Cancellation, partial results, missing input and terminal outcomes should remain distinguishable. An A2A task status cannot automatically substitute for a truthful Vernaculum response, and a file part containing a YAML document would not satisfy the inline-message requirement.
+### MCP: retrieve sources and use ordinary tools
 
-### MCP: supporting context and deterministic tools
+[MCP resources](https://modelcontextprotocol.io/specification/latest/server/resources) and [tools](https://modelcontextprotocol.io/specification/latest/server/tools) could expose supporting records, source revisions and authorised deterministic operations. A resource could also make the entire canonical text available, provided the agent actually reads it and understands that the main-branch publication remains authoritative.
 
-MCP exposes [resources](https://modelcontextprotocol.io/specification/latest/server/resources) and [tools](https://modelcontextprotocol.io/specification/latest/server/tools) through a common interface.
+The useful separation is between finding information, describing an operation and permitting its execution. Discoverability grants no authority, and returned material can contain untrusted claims or instructions. MCP is an optional access mechanism; it is neither a context selector for the governing specification nor a prerequisite to participation.
 
-An owner-controlled MCP service could expose the complete canonical text, immutable supporting source revisions and approved records. Optional tools could check records, look up dependencies or perform an already-authorised operation; none is a prerequisite to reading or following the specification. That can eliminate repeated model interpretation of facts that software can establish directly.
+### ACP: connect coding agents to an editor
 
-A resource URI identifies supporting material; it does not replace a task's inline YAML instruction. Resource contents, tool descriptions and returned text remain untrusted until the appropriate checks succeed. A tool being discoverable does not authorise its invocation. Vernaculum could learn from the separation between resource discovery, tool schemas and execution, while leaving trust and enforcement with the host.
+[Agent Client Protocol](https://agentclientprotocol.com/get-started/introduction) concerns editor-to-agent communication. Its [tool-call interface](https://agentclientprotocol.com/protocol/v1/tool-calls) is relevant to displaying work and requesting permissions.
 
-### ACP: coding-agent integration with editors
+An editor integration could show a blocked task, clarification or approval request while keeping ordinary human communication readable. A separate bridge would still be needed for actual agent-to-agent YAML exchange. Vernaculum could learn from explicit progress and permission outcomes without treating an editor session or displayed approval label as permission for unrelated actions.
 
-[Agent Client Protocol](https://agentclientprotocol.com/get-started/introduction) standardises communication between coding agents and editors. Its [tool-call protocol](https://agentclientprotocol.com/protocol/v1/tool-calls) includes progress reporting and permission requests.
+### ANP: external identity and discovery where needed
 
-ACP could support an editor-facing Vernaculum deployment: display pending operations, surface clarifications and approval requests, and associate tool results with the task that caused them. Its explicit permission outcomes offer a useful design reference for keeping cancellation, rejection and approval distinct.
+[Agent Network Protocol](https://github.com/agent-network-protocol/AgentNetworkProtocol) offers a reference point for agent identity and discovery across administrative boundaries. A deployment needing those functions could investigate a supported profile rather than adding identity machinery to Vernaculum.
 
-ACP connects an editor and an agent; it is not automatically an agent-to-agent channel. A bridge would need to deliver complete YAML to the actual peer. An editor session, a remembered approval or a rendered permission label must not be treated as a universal execution grant. Remote capabilities should be assessed against the selected ACP version rather than assumed from the protocol's overall ambitions.
+The lesson is to make capability and identity claims explicit. A verified external identity can help attribute a sender, but cannot approve its requested task. A local owner-governed team may already have sufficient identity controls. Negotiation through another system cannot silently change Vernaculum's meanings or permissions.
 
-### ANP: identity and discovery across administrative boundaries
+### AG-UI: expose decisions and uncertainty to humans
 
-[Agent Network Protocol](https://github.com/agent-network-protocol/AgentNetworkProtocol) separates identity, authentication, discovery, messaging and other profiles. Its published specifications also distinguish released components from draft authorization and semantic-negotiation work.
+[AG-UI](https://docs.ag-ui.com/introduction) could support a human interface showing proposed work, unanswered questions, partial results and supporting evidence. An approval view could identify the particular action and target under consideration.
 
-This is relevant when Vernaculum crosses independently administered environments. An optional deployment could use an established identity/discovery layer to locate peers and bind a verified external identity to a claimed sender. Vernaculum could also learn from explicit profile descriptions and visible specification status.
+Vernaculum could learn from making consequential state visible. A UI event remains evidence of that event, not proof that the requested work was authorised or completed. If an interface streams content, the recipient still needs a complete intelligible YAML message before treating it as a governed task. Humans need not write YAML to participate in oversight.
 
-The benefit is conditional: an owner-governed local team may already have adequate identity controls. Adopting decentralized identity solely to exchange local tasks would add complexity. ANP identity would not grant task authority, and dynamic negotiation must not silently alter Vernaculum's core grammar, meanings or agreed version contract. Draft capabilities should not be represented as available guarantees.
+## 2. Representation, generation and supporting context
 
-### AG-UI: meaningful human oversight
+### JSON Schema: optional assistance with structure
 
-[AG-UI](https://docs.ag-ui.com/introduction) provides an event-based connection between agent backends and user-facing applications, including state updates and human interaction.
+[JSON Schema](https://json-schema.org/draft/2020-12) could express a deployment's record structures and agreed extension fields, or help construct message bodies. It can expose missing fields and inconsistent types without another model call.
 
-It could make Vernaculum's distinctions visible: proposed work, a blocked request, an approval awaiting a decision, a partial outcome, or evidence awaiting review. A UI could show the exact action and target before a consequential operation and correlate the owner's decision with that specific request.
+Any schema would be an optional derivative aid, not a second normative specification or a required installation. It must follow the canonical contracts, including record-kind statuses and interpretation versions. Parsing and schema success cannot establish truth, current approval, adequate task context or execution. Historical records must remain interpretable under their declared versions.
 
-The lesson is to expose actionable state rather than an undifferentiated conversation stream. UI events and displayed success indicators remain observations, not independent approval records. Editing or approving a request must preserve its binding to the operation actually executed. Streaming fragments should be assembled and validated before they are treated as a complete protocol instruction.
+### XGrammar: reduce formatting errors where inference is useful
 
-## 2. Representation, generation and compression
+[XGrammar](https://github.com/mlc-ai/xgrammar) is relevant to constrained model output. A deployment could investigate generating an internal structured proposal and converting it into the actual inline YAML message. A custom YAML grammar would need deliberate agreement on the supported representation; Vernaculum v1.0.0 does not mandate a byte-exact serializer or a particular parser library.
 
-### JSON Schema: precise structural contracts
+The lesson is to avoid spending inference on repairable formatting errors. A constrained result can still contain a false assertion, inadequate instruction or unauthorised request. An internal JSON intermediate does not become an alternative wire format, and generated constraints do not replace the whole specification in the agent's context.
 
-[JSON Schema Draft 2020-12](https://json-schema.org/draft/2020-12) can optionally support the JSON representation recommended for durable records. It can express required fields, types, enumerations and conditional structure.
+### TOON: compact repetitive supporting datasets
 
-Schemas could make record kinds, peer-agreed namespaced extensions and internal message-construction inputs easier to validate consistently. They can also identify missing structure before a model is asked to interpret a packet. Schema versions and supported validator features should be explicit; a schema dialect is not interchangeable with every constrained-generation engine's supported subset.
+[TOON](https://github.com/toon-format/toon) is relevant to representing auxiliary structured data economically. Uniform collections could be compared with ordinary YAML, JSON or tables to see whether repetition can be reduced without losing needed meaning.
 
-Structural success cannot establish that an approval is genuine, a source is current, or a task has sufficient context. Duplicate-key and restricted-YAML checks must occur before validating a parsed object. A deployment can restrict schema resolution to reviewed local definitions; the standard imposes no mandatory schema installation or registry. The useful combination is deterministic shape validation followed by separate authority and operational checks.
+Such an experiment concerns supporting data, not the core message language. The actionable task stays in complete inline YAML; durable records retain their identity, interpretation and provenance, with JSON remaining the recommended representation. Any savings must exceed conversion, retrieval and correction costs. Another workload's token savings are not evidence of a benefit here.
 
-### XGrammar: fewer malformed model-generated proposals
+### ISON: explicit references and economical structure
 
-[XGrammar](https://xgrammar.mlc.ai/docs/latest/defining_structures/json_generation.html) supports constrained generation from JSON Schema; its [EBNF support](https://xgrammar.mlc.ai/docs/latest/defining_structures/ebnf_grammar.html) can describe custom output languages.
+[ISON](https://github.com/ISON-format/ison) offers another reference point for structured supporting data and relationships. Vernaculum could learn from explicit references and compare representations for datasets where linked objects matter.
 
-Where inference is necessary, it could constrain an internal task proposal to a typed structure, after which ordinary software builds and validates the actual YAML message. A restricted YAML grammar is another possibility, but would require deliberate coverage of Vernaculum's quoting and scalar rules. This is not evidence of an off-the-shelf Vernaculum grammar.
+A deployment would need to preserve types, identities and resolvable sources when deriving another representation. ISON references cannot replace the protocol's record semantics or create authority. A format's canonical representation is also distinct from the authority of Vernaculum's canonical main-branch document.
 
-The expected benefit is fewer formatting failures and corrective model calls. Grammar validity still cannot prove adequate instructions, truthful evidence, session validity or permission. A constrained JSON intermediate must remain internal rather than becoming an alternative wire format. Deterministic construction is preferable when no model judgement is needed, but there is no generated normative specification or mandatory byte-serialization gate.
+### LLMLingua: compress background material, not governing text
 
-### TOON: compact auxiliary structured data
+[LLMLingua](https://www.microsoft.com/en-us/research/project/llmlingua/) is relevant to experiments with supporting-context compression. After removing irrelevant background, a deployment could compare compressed and uncompressed material for task quality and total cost.
 
-[TOON](https://github.com/toon-format/toon) compactly represents the JSON data model, particularly uniform collections whose field names can be declared once. Its documentation also describes cases where compact JSON or CSV may be a better fit.
+The complete canonical specification remains in working context unchanged. Exact constraints and approval evidence must remain accessible and must not be replaced by a lossy summary presented as authoritative. If compression introduces uncertainty, retrieve the source or clarify. Useful measurements include omitted exceptions, changed meanings and recovery effort, not only token counts.
 
-Vernaculum could learn from separating repeated structure from values. Possible uses include auxiliary tabular source material or an explicitly reviewed future representation experiment, with exact round-trip preservation of types, nulls, identifiers and ordering where meaningful. Comparisons should include ordinary YAML, compact JSON and simple tables rather than assuming a new format wins.
+## 3. Scheduling, continuity and delivery
 
-TOON is not an alternative to v1.0.0's core YAML message envelope. Auxiliary encodings must preserve record interpretations and peer-agreed contracts; JSON remains the recommended durable record representation. An encoded source attachment is supporting data, not the peer's task instruction. Any benefit must exceed parser, conversion and interpretation costs; published token savings on other workloads do not establish savings for Vernaculum.
+### LangGraph: separate saved workflow state from governing context
 
-### ISON: references and stable representations
+[LangGraph persistence](https://docs.langchain.com/oss/python/langgraph/persistence) could retain task progress, pending exchanges and unresolved questions. It offers a useful model for distinguishing stored workflow state from what an agent currently has in context.
 
-[ISON](https://github.com/ISON-format/ison) offers typed tabular structures, references, a streaming form and a canonical form intended for deterministic representation.
+Restoring a checkpoint does not satisfy Vernaculum recovery by itself. The agent reloads the whole specification and reconciles the checkpoint against current sources and record revisions. Storage durability and protection depend on the deployment. A saved adherence flag is not evidence that the resumed agent has read the specification.
 
-Its clearest lessons for Vernaculum are economical references, explicit types and stable derivative representations for caching. It could be compared with TOON for suitable auxiliary datasets, especially where relationships between objects matter. Reference resolution, dangling identifiers, type preservation and reordering would need explicit treatment.
+### Google ADK: use ordinary control flow for known workflows
 
-These are potential lessons, not a reason to add a second instruction language. ISON reference syntax cannot replace Vernaculum record identities or convey authority. Any derivative representation must retain a resolvable authoritative source, and canonicalization under ISON must not be confused with authority of the canonical main-branch document.
+[Google ADK workflow agents](https://adk.dev/agents/workflow-agents/) are relevant to sequential, parallel and repeated work patterns. A deployment could schedule independent implementation and review work while reserving model judgement for interpretation and synthesis.
 
-### LLMLingua: selective compression of supporting context
+The lesson is to avoid repeatedly asking a model to decide a known next step. Shared-file edits still need coordination, and each participating agent needs the complete governing specification. Workflow completion cannot establish correctness or authorisation. Governed messages between agents remain complete inline YAML rather than informal routing summaries.
 
-[LLMLingua](https://www.microsoft.com/en-us/research/project/llmlingua/) explores learned prompt compression, including query-aware and token-classification approaches.
+### Microsoft Agent Framework: make pending work and approvals explicit
 
-It could reduce non-authoritative background text after irrelevant supporting material has already been removed. The interesting question is whether compression lowers total task cost without losing exceptions, dependencies or evidence needed by the receiving agent.
+[Microsoft Agent Framework checkpoints](https://learn.microsoft.com/en-us/agent-framework/workflows/checkpoints) and [human interaction](https://learn.microsoft.com/en-us/agent-framework/workflows/human-in-the-loop) suggest ways to retain outstanding work and correlate external decisions with requests.
 
-The complete governing specification, approval evidence and exact task constraints should remain available unchanged. Compression cannot itself certify semantic preservation, and compressed text must not replace an authoritative record. Source retrieval and expansion are necessary when interpretation becomes uncertain. The useful comparison is against simpler extraction and retrieval as well as an uncompressed baseline, with attention to changed meaning rather than token count alone.
+A deployment could resume a paused task without reconstructing its entire conversation. It would still need to reload governing context and establish that the particular approval remains applicable. Framework labels do not redefine Vernaculum response statuses, record lifecycles or human authority; workflow state supplements the evidence rather than replacing it.
 
-## 3. Scheduling, state and durable delivery
+### Temporal: durable scheduling for long-running collaboration
 
-### LangGraph: explicit state and recovery boundaries
+[Temporal workflows](https://docs.temporal.io/workflow-execution) and [Activities](https://docs.temporal.io/activity-definition) are relevant where tasks need durable scheduling and retries across failures. Vernaculum could remain the semantic language while Temporal supplies operational continuity.
 
-[LangGraph persistence](https://docs.langchain.com/oss/python/langgraph/persistence) provides checkpointed thread state and stores for information shared across threads. Its [fault-tolerance model](https://docs.langchain.com/oss/python/langgraph/fault-tolerance) is relevant to interrupted workflows.
+This is an infrastructure choice for a demonstrated need. A replayed workflow or retried activity does not establish that an external effect should happen again. Idempotency, transaction controls and current permissions belong to the host application. Restored execution history also does not replace the agent's complete-context recovery obligation.
 
-An optional integration could retain task progress, pending exchanges and unresolved questions, then resume at an explicit recovery boundary. The design lesson is to distinguish durable workflow state from the context currently visible to a model.
+### NATS JetStream: preserve messages across asynchronous delivery
 
-A restored checkpoint cannot establish current authority or replace reloading the whole specification and reconciling current sources. State storage, access protection and restart behaviour depend on the chosen backend; an in-memory checkpoint is not durable across process loss. Workflow routing must also preserve the complete governing context and check complete peer messages rather than passing informal state summaries as protocol exchanges.
+[NATS JetStream](https://docs.nats.io/learn/jetstream) could retain complete YAML messages until another agent is available. An adapter would present the actual message text to the recipient and keep broker acknowledgements distinct from task outcomes.
 
-### Google ADK: deterministic delegation patterns
+Redelivery is relevant to `SCP-MSG-003`: distinct messages need distinct identifiers within their conversation, and agents should identify and avoid duplicate or stale requests. The core does not prescribe a replay database or guarantee exactly-once effects. A deployment needing stronger safeguards must supply them through its host. Renaming a retried request cannot make a repeated consequential operation safe or authorised.
 
-[Google ADK workflow agents](https://adk.dev/agents/workflow-agents/) provide sequential, parallel and looping orchestration patterns.
+## 4. Inference, observation and evaluation
 
-These could schedule independent work, collect findings and invoke synthesis only where judgement is required. Vernaculum could supply the task, constraints and outcome contract at each genuine inter-agent boundary, while the orchestrator handles a known execution pattern without repeatedly asking models what to do next.
+### DSPy: improve task prompts around a fixed specification
 
-Parallel execution is useful only when tasks are actually independent. Shared-file mutations or competing amendments need appropriate serialization and conflict handling. Workflow completion does not confer authority or prove a correct result. The relevant lesson is to use ordinary control flow where it is sufficient, preserving complete validated YAML whenever agents exchange governed instructions.
+[DSPy](https://dspy.ai/) could help compare task-prompt wording and examples against explicit objectives. Relevant outcomes include correct completion, useful clarification, faithful handoffs and truthful reporting.
 
-### Microsoft Agent Framework: correlated handoffs and approval pauses
+Optimisation applies to supporting prompts and task presentation, not automatic amendments to canonical rules. It cannot omit governing context, weaken permissions or reward invented evidence. Correctly reporting a blocked task should count as a useful outcome when execution is not authorised. Compare on held-out tasks and total correction effort as well as nominal success.
 
-[Microsoft Agent Framework checkpoints](https://learn.microsoft.com/en-us/agent-framework/workflows/checkpoints) capture workflow state, including pending work. Its [human-in-the-loop model](https://learn.microsoft.com/en-us/agent-framework/workflows/human-in-the-loop) supports requests that pause execution for correlated external input.
+### LiteLLM: route model work after considering non-inference options
 
-Vernaculum could use these patterns to make handoff ownership, pending approvals and resumed work explicit. They also suggest a useful separation between a resumable workflow and the owner's decision about a particular operation.
+[LiteLLM routing](https://docs.litellm.ai/docs/routing) could help a deployment choose models for tasks that still require inference. The protocol's own starting point is to prefer an available authorised non-inference operation where it reliably meets the requirement at lower expected total cost.
 
-Restoring an approval request must not restore permission automatically: the target, scope and applicable authorization still need checking. Checkpoint storage and serialization have their own protection and compatibility requirements. Framework state should supplement authoritative records rather than replace them, and proprietary workflow labels should not silently become protocol status meanings.
+Model selection and fallback should preserve the whole governing context, task constraints and applicable information controls. A changed model does not automatically mean a new peer has accepted the release. Retries can produce alternative proposals; the host remains responsible for preventing unintended repeated effects.
 
-### Temporal: long-running coordination without repeated reasoning
+### OpenTelemetry: find the actual sources of cost
 
-[Temporal workflow execution](https://docs.temporal.io/workflow-execution) uses durable history and replay, while [Activities](https://docs.temporal.io/activity-definition) represent work that can execute and retry outside deterministic workflow logic.
+[OpenTelemetry](https://opentelemetry.io/docs/) could help observe retrieval, model calls, peer waits, execution and recovery. Measurements could show whether delays come from excessive delegation or repeated reconstruction rather than message size.
 
-For long-running collaboration, Temporal could retain scheduling and recovery state across failures, reducing repeated planning and manual reconstruction. Vernaculum would still define the meaning and constraints of exchanges and outcomes.
+Telemetry is optional deployment evidence, not a compliance certificate. Its collection needs appropriate permission and [sensitive-data handling](https://opentelemetry.io/docs/security/handling-sensitive-data/). Prefer minimal approved metadata over raw conversations or credentials. An observed call, receipt or status proves only what the instrumentation actually captured.
 
-This is an infrastructure choice for deployments that need durable execution, not a baseline protocol requirement. Retried side effects need idempotency or equivalent application safeguards. Restored workflow state cannot refresh a revoked approval, and task execution should recheck relevant permissions before a consequential retry. Durable orchestration does not itself provide exactly-once external effects.
+### Phoenix: evaluate meaning and outcomes
 
-### NATS JetStream: asynchronous delivery with explicit redelivery
+[Phoenix](https://arize.com/docs/phoenix) is relevant to experiments and evaluation around agent behaviour. A deployment could compare constraint retention, evidence accuracy, clarification quality and recovery with or without an integration.
 
-[NATS JetStream](https://docs.nats.io/learn/jetstream) provides persistent messaging. Its [delivery and acknowledgement rules](https://docs.nats.io/learn/jetstream/delivery-and-acknowledgment) explain redelivery when handling is not acknowledged.
+Use deterministic checks for structural facts and reviewed human or model assessments where meaning requires judgement. A judge's score cannot establish approval or security. Evaluation data needs the same disclosure controls as its source material; self-hosting alone does not establish that every connected evaluator or telemetry destination is private.
 
-It could carry complete YAML payloads between agents that are not simultaneously available, with an adapter delivering the actual message text to the recipient. Broker retention can also support transport-level recovery independently of model context.
+## 5. Host policy and security review
 
-Broker sequence numbers, acknowledgements and task completion are different facts. Redelivery must still encounter conversation-local replay checks; acknowledging delivery cannot authorise execution. A new message ID must not be used merely to bypass a rejected replay. Persistent session state, idempotent operations and reconciliation remain application responsibilities. Streaming or chunking must preserve a complete validated instruction before dispatch.
+### Open Policy Agent: enforce the host's decisions at its tool boundary
 
-## 4. Optimising model use and measuring outcomes
+[OPA's agent tool-calling guidance](https://www.openpolicyagent.org/docs/agent-tool-calling) separates policy decisions from their enforcement by the surrounding application. A deployment could supply trusted facts about the actor, requested operation, target and approval to decide whether a tool call may proceed.
 
-### DSPy: improve prompts against explicit objectives
+This complements Vernaculum's explicit limits: a message, record or claimed identity grants no permission. OPA is optional, and a smaller existing host policy may suffice. A model-generated approval reference is not trusted input merely because it appears in YAML. Policy enforcement remains external; it does not turn voluntary protocol adherence into mechanically guaranteed obedience.
 
-[DSPy optimization](https://dspy.ai/current/getting-started/gepa-optimization/) can improve program instructions and examples against supplied objectives and inputs.
+### OWASP guidance: ask concrete deployment questions
 
-It could explore task-prompt wording, relevant-context selection and demonstrations of truthful structured responses around the complete accepted specification. Useful objectives include successful task completion, retention of constraints, appropriate clarification and total cost. Held-out cases help distinguish improvement from memorization of examples.
+The [OWASP AI Agent Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html) offers questions about untrusted input, tool permissions and oversight. A deployment could use it to examine whether retrieved content redirects a task, a checkpoint contains misleading claims, or a request exceeds the user's actual approval.
 
-An optimizer must not silently rewrite normative rules, omit governing rules or change approval gates to improve a score. Correct refusal needs to count as success where execution is not authorised. The lesson is to make the desired outcome measurable while preserving hard constraints that an optimizer is not allowed to trade away.
+The lesson is to connect each control to a particular operation and threat. Vernaculum explicitly cannot prevent prompt injection, fabricated evidence or unsafe execution by itself. A checklist is not evidence of effective protection, and applicable host controls need not become new core obligations.
 
-### LiteLLM: route inference after eliminating unnecessary inference
+## 6. Techniques that may be sufficient without another framework
 
-[LiteLLM routing](https://docs.litellm.ai/docs/routing) supports model routing, load balancing, retries and fallbacks.
+Several useful improvements need no additional platform:
 
-An optional deployment could reserve more capable models for interpretation and synthesis, using lower-cost models for tasks that meet the same correctness requirements. Model access and budget controls can remain outside the semantic protocol.
+- **Source references:** use stable identifiers and exact revisions for supporting records, retain attribution and resolve necessary dependencies rather than guessing unseen content.
+- **Ordinary retrieval:** select relevant supporting material while keeping the entire canonical specification in working context.
+- **Caches:** retain derived supporting views with their source revisions, and reconcile freshness when resuming rather than trusting remembered claims.
+- **Deltas:** follow `SCP-MSG-007` by identifying the exact base, deterministic operations and conflict preconditions. If reliable authorised application cannot be established, retrieve the complete record or escalate. The core specifies no universal delta language.
+- **Direct computation:** use available authorised queries, comparisons and other reliable operations where they meet the task better than inference. Optional validators can assist without becoming an adoption gate.
 
-First consider whether a validator, query or deterministic operation can do the work without a model. Where inference remains useful, a provider fallback must preserve message shape, context coverage, confidentiality requirements and approval boundaries. A model switch is not a new peer's agreement to the release. Repeated completion requests may generate alternative proposals; the surrounding runtime must prevent them from duplicating side effects.
+The decision is whether a technique improves correctly completed work enough to justify its own complexity.
 
-### OpenTelemetry: observe where collaboration costs arise
+## 7. A possible collaboration
 
-[OpenTelemetry](https://opentelemetry.io/docs/) provides instrumentation for traces, metrics and logs. Its [sensitive-data guidance](https://opentelemetry.io/docs/security/handling-sensitive-data/) stresses careful collection and handling.
+1. The owner supplies the objective and applicable permissions. Each participating agent reads the whole canonical specification.
+2. Agents establish release agreement through `hello` and a reply-bound `ready`, or clarify missing information with `need`. Any optional namespaced contract is agreed by the peers it affects.
+3. Agents retrieve relevant evidence through existing tools or, if useful, MCP. A simple scheduler or suitable orchestrator coordinates independent work.
+4. Complete inline YAML requests travel through a permitted channel, potentially using an A2A or broker adapter. The recipient checks the contract, necessary sources and its actual authority before acting.
+5. The recipient returns a correlated response with truthful status, evidence, limitations and unperformed checks. Durable records preserve substantive decisions and results with provenance.
+6. After recognised interruption or context loss, the agent reloads the whole specification and reconciles current evidence before continuing. A workflow checkpoint can assist this step but cannot replace it.
 
-A deployment could observe time spent selecting context, verifying messages, waiting for peers, evaluating policy and executing work. Correlated stages can reveal that expensive delays come from repeated retrieval, needless handoffs or retries rather than message length.
+This is an illustration, not a mandatory stack. Direct communication and existing project tools may already be sufficient.
 
-Collect minimal approved metadata, redact at the source and avoid recording raw messages, identities, credentials or identifying paths by default. Trace context is not an authority reference. An observed event also cannot establish delivery, approval or semantic correctness unless the underlying system actually supplies that evidence.
+## 8. Choosing what earns its place
 
-### Phoenix: compare semantic outcomes, not just successful parsing
-
-[Phoenix](https://arize.com/docs/phoenix) combines tracing with datasets, experiments and code-, model- or human-based evaluation.
-
-It could help compare equivalent task sets for omitted constraints, invented evidence, clarification quality, handoff fidelity and recovery accuracy. Deterministic checks should establish structural facts; human assessment or carefully reviewed rubrics can address meaning that a schema cannot express. Model-judge agreement is useful evidence, not proof of security or permission.
-
-Telemetry needs the same access and disclosure controls as its source material. Phoenix supports [attribute masking](https://arize.com/docs/phoenix/tracing/how-to-tracing/advanced/masking-span-attributes); its [self-hosting privacy documentation](https://arize.com/docs/phoenix/self-hosting/security/privacy) describes separate telemetry controls. Self-hosting alone does not settle whether instrumentation or external evaluators transmit data elsewhere.
-
-## 5. Policy enforcement and security reasoning
-
-### Open Policy Agent: explicit decisions enforced by the runtime
-
-[OPA's agent tool-calling guidance](https://www.openpolicyagent.org/docs/agent-tool-calling) separates the policy decision point from the component that enforces the decision.
-
-An owner-controlled runtime could supply trusted facts about actor, action, target, approval scope and current state to a policy engine. It could then permit or deny an operation deterministically after validating the message. This is a strong fit for Vernaculum's separation of structural, authoritative and operational validity.
-
-The model must not manufacture the trusted inputs or treat its own `authority_ref` as proof. A policy result needs enforcement at the actual tool boundary, with policy protection and freshness appropriate to the operation. OPA is optional: a small fixed policy may be sufficient. [Decision-log masking](https://www.openpolicyagent.org/docs/management-decision-logs#masking-sensitive-data) is relevant when policy inputs contain sensitive information.
-
-### OWASP guidance: concrete threat questions
-
-The [OWASP AI Agent Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html) provides guidance on tool permissions, untrusted inputs, oversight and agent trust boundaries.
-
-Vernaculum could use it to ask concrete deployment questions: can a syntactically valid request bypass approval; can a stale approval be reused; can a recovered checkpoint smuggle instructions; can a tool result redirect execution or disclose protected information? Such questions connect broad security principles to the protocol's actual authority and recovery boundaries.
-
-The entire checklist should not automatically become new protocol obligations. Applicable controls depend on the deployment and its threats. A review should identify the operation, trust boundary and demonstrated failure being addressed, and retain the distinction between a semantic convention and the environment enforcing it. Listing a control is not evidence that it exists or works.
-
-## 6. Useful techniques that do not require another framework
-
-Several opportunities in the original discussion are ordinary software techniques rather than products:
-
-- **Immutable references and content addressing:** identify supporting material precisely, check its identity and relevance using appropriate tools or evidence and reuse it only while its revision and dependency validity remain established. Keep complete task instructions inline.
-- **Relevant supporting context:** retain the whole governing specification and select the record contracts and sources needed for the task. Retrieval ranking or a vector similarity score cannot remove governing obligations or establish authority.
-- **Dependency-aware caches:** cache derived views against exact source revisions. Missing dependency edges require expansion or refusal, and recovery must not trust a remembered adherence claim.
-- **Incremental updates:** consider deltas only when an agreed grammar, immutable base and atomic authorised applicator already exist. Otherwise retrieve the complete authoritative object.
-- **Queries and computation before inference:** use schema validators, repository queries, comparisons and explicit policy checks for mechanically decidable questions. Reserve inference for interpretation, generation and unresolved judgement.
-
-These techniques can deliver value independently of the larger frameworks. They also provide useful baselines when deciding whether another dependency earns its cost.
-
-## 7. How the pieces could work together
-
-A possible deployment could follow this sequence without changing v1.0.0's wire language:
-
-1. The owner supplies a task, constraints and the applicable execution permissions.
-2. The agents read the whole canonical specification; MCP can expose supporting resources and optional deterministic lookup tools.
-3. Ordinary workflow code, or a suitable orchestrator, schedules genuinely independent work. A model is used where the task needs judgement.
-4. An adapter carries each complete validated YAML message through A2A or another permitted transport. Compatibility negotiation remains separate from an operation's authorization.
-5. The recipient resolves relevant sources and checks structural, authoritative and operational validity. A policy engine may assist; the executor enforces the result.
-6. The recipient returns a correlated YAML response with truthful status and applicable evidence. Delivery receipts and claimed success remain distinguishable from observed execution.
-7. Minimal telemetry supports diagnosis and comparison without becoming a second store of sensitive conversations.
-
-This sequence is an illustration of responsibility boundaries, not an implementation claim or mandatory architecture. ACP or AG-UI could provide the human interface; durable workflows or a broker are warranted only where interruption and delivery requirements justify them.
-
-## 8. Priorities and decision criteria
-
-| Priority | Opportunity | Decision criterion |
+| Need | Possible capability | Useful evidence of value |
 | --- | --- | --- |
-| First | Deterministic validation, approved resource retrieval and explicit policy enforcement; JSON Schema and optionally MCP/OPA | Fewer repeated interpretations with unchanged authority and correctness |
-| Next | A2A adapters; ACP or AG-UI where an editor or human interface is needed | Complete messages and correlated outcomes survive the boundary |
-| As coordination grows | One suitable orchestrator, durable execution service or message broker | Measurable reduction in lost work, unnecessary handoffs or recovery effort |
-| Where optimisation is needed | DSPy, LiteLLM and privacy-conscious OpenTelemetry/Phoenix | Lower total cost without weaker task, context or permission checks |
-| Selectively | TOON, ISON and LLMLingua for suitable supporting data | Preservation of required meaning after accounting for conversion, retrieval and correction costs |
-| Where external identity is needed | ANP or another established identity/discovery environment | A verified identity binding that remains distinct from task permission |
+| Access to sources or reliable computation | Existing tools; optionally MCP or JSON Schema | Less repeated interpretation without lost constraints or authority |
+| Communication across agent systems | A2A or another permitted adapter | Complete instructions and reply bindings survive the boundary |
+| Human interaction | ACP or AG-UI | People can understand the pending action, decision and outcome |
+| Interrupted or asynchronous work | A suitable orchestrator, Temporal or JetStream | Less lost work and fewer unsafe repeated effects |
+| Expensive inference or poor task prompts | DSPy, LiteLLM, direct computation | Lower total cost per correctly completed task |
+| Unclear performance or quality | OpenTelemetry or Phoenix | Actionable observations with appropriate information protection |
+| Large supporting datasets | TOON, ISON or selective LLMLingua experiments | Meaning survives conversion, retrieval and correction |
+| External identity or tool permissions | Existing identity controls, possibly ANP or OPA | Appropriate identity evidence and enforced host decisions |
 
-Across these choices, compare semantic fidelity, retained obligations and exceptions, correct task outcomes, correct refusals, human correction effort, inference expenditure, delivery/recovery overhead and information exposure. Assess them together: a smaller prompt that causes more retries or loses a constraint is not an efficiency gain.
+Compare task outcomes, retained constraints, truthful reporting, useful refusals, human correction effort, recovery cost and information exposure. The complete governing specification stays intact. A useful integration can remain replaceable infrastructure or a peer-agreed extension; it does not need to enlarge the canonical core.
 
-The strongest direction is a small, stable semantic contract surrounded by replaceable, well-understood capabilities. Vernaculum can learn from this ecosystem without absorbing its transport, orchestration, identity and model-serving responsibilities into the protocol itself.
-
-Return to the [README](../README.md) or read the [protocol](../PROTOCOL.md).
+Return to the [README](../README.md), consult the [overview](../OVERVIEW.md), or read the [protocol](../PROTOCOL.md).

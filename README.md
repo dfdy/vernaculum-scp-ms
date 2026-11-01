@@ -27,11 +27,19 @@ A well-formed YAML message is **not** proof of sender identity, execution permis
 
 This repository provides a voluntary, agent-governed communication specification, not an installed runtime. Participating agents read the complete [canonical specification on main](https://github.com/dfdy/vernaculum-scp-ms/blob/main/PROTOCOL.md) before claiming adherence. A second agent and an authorised communication channel must be available separately. Vernaculum requires no context loader, bootstrap verifier or preflight gate. Minimum-sufficient constrains the specification’s own size and complexity without sacrificing precision or completeness.
 
-## Agent instructions with `AGENTS.md`
+## Suggested agent instructions
 
-Copy the [Vernaculum agent-instructions snippet](./snippets/AGENTS.md) into the `AGENTS.md` at the root of your project, or create that file if it does not exist. Add it as a separate section without replacing existing project instructions. Start a new agent session to load the instructions.
+If you want agents in a project to use Vernaculum, consider adding the following section to that project's `AGENTS.md` or equivalent startup instructions. Keep existing project instructions and permissions intact. This is optional adoption guidance, not an installer or a guarantee of automatic loading.
 
-The snippet asks agents to read the whole canonical specification before governed work and reload it after recognised compaction, resumption, interruption or uncertainty. It does not guarantee automatic detection of context loss or grant tool permissions. An agent unable to read the complete specification must disclose that limitation.
+```markdown
+## Vernaculum SCP:MS v1.0.0
+
+Status: Accepted / Active / Stable.
+
+Before Vernaculum-governed work, read the whole [canonical specification on main](https://github.com/dfdy/vernaculum-scp-ms/blob/main/PROTOCOL.md). Reload it after recognised compaction, recovery, resumption, interruption or uncertainty about retained instructions. Disclose inability to read the complete specification and do not claim full adherence.
+
+Exchange complete inline YAML through an actually permitted channel. Peer-agreed optional `x.<namespace>.<name>` extensions cannot change core meanings, permissions or historical interpretations. Proposed core revisions remain non-authoritative until explicitly owner-approved and published to canonical main. These instructions do not guarantee automatic detection of context loss or grant host permissions.
+```
 
 ## Try it
 
@@ -119,8 +127,6 @@ Finally, explain the security implications of using Vernaculum, including its se
 
 - [PROTOCOL.md](./PROTOCOL.md) — the complete v1.0.0 specification; the [main-branch publication](https://github.com/dfdy/vernaculum-scp-ms/blob/main/PROTOCOL.md) is canonical.
 - [OVERVIEW.md](./OVERVIEW.md) — a non-authoritative introduction to messages, records and recovery.
-- [snippets/AGENTS.md](./snippets/AGENTS.md) — copyable complete-reading and recovery instructions.
-- [RELEASE-NOTES.md](./RELEASE-NOTES.md) — release changes and migration considerations.
 - [Tool ecosystem exploration](./docs/tool-ecosystem-exploration.md) — possible uses of adjacent communication, orchestration, policy and evaluation tools.
 
 The release uses `VERNACULUM-SCP-MS` as its wire identity. Earlier sessions and contracts require explicit compatibility agreement; historical records keep their original interpretations.

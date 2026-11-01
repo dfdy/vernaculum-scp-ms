@@ -31,4 +31,4 @@ Peers may accept optional namespaced language extensions. Those extensions canno
 
 Historical records remain readable under their declared versions. Their old fields or authorization conventions do not redefine the accepted v1.0.0 core.
 
-See the [README](./README.md) for adoption and the [release notes](./RELEASE-NOTES.md) for migration considerations.
+See the [README](./README.md#suggested-agent-instructions) for optional adoption instructions and the [tool ecosystem exploration](./docs/tool-ecosystem-exploration.md) for possible integrations.
