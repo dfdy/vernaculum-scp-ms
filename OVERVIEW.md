@@ -2,7 +2,7 @@
 
 **Vernaculum SCP:MS — Semantic Communication Protocol, Minimum-Sufficient**
 
-This document maps the communication structures and vocabulary defined by Vernaculum SCP:MS. It is a **non-authoritative orientation aid**, not a specification, validator or executable instruction. **[PROTOCOL.md](./PROTOCOL.md) alone is authoritative** and governs wherever this overview omits detail or differs.
+This document maps the communication structures and vocabulary defined by Vernaculum. It is a **non-authoritative orientation aid**, not a specification, validator or executable instruction. **[PROTOCOL.md](./PROTOCOL.md) alone is authoritative** and governs wherever this overview omits detail or differs.
 
 ## Reading the trees
 
