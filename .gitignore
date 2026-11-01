@@ -1,0 +1,6 @@
+.DS_Store
+.archive/
+.verification/
+*.code-workspace
+__pycache__/
+*.py[cod]
