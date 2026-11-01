@@ -63,7 +63,7 @@ The complete [protocol document](./PROTOCOL.md) defines the shared language and 
 
 **No installation machinery:** There is no required bootstrap verifier, generated normative YAML copy, scoped loader or byte-exact serializer.
 
-**How much enters agent context?** The whole governing specification. Task messages and supporting references remain as concise as correct interpretation requires. The [overview](./OVERVIEW.md) explains messages, records, continuity and authority.
+**How much enters agent context?** The whole governing specification. Task messages and supporting references remain as concise as correct interpretation requires. The [overview](./OVERVIEW.md) maps message and durable-record structures.
 
 ## What agents exchange
 
@@ -126,7 +126,7 @@ Finally, explain the security implications of using Vernaculum, including its se
 ## Where to look
 
 - [PROTOCOL.md](./PROTOCOL.md) — the complete v1.0.0 specification; the [main-branch publication](https://github.com/dfdy/vernaculum-scp-ms/blob/main/PROTOCOL.md) is canonical.
-- [OVERVIEW.md](./OVERVIEW.md) — a non-authoritative introduction to messages, records and recovery.
+- [OVERVIEW.md](./OVERVIEW.md) — non-authoritative message and durable-record structure trees.
 - [Tool ecosystem exploration](./docs/tool-ecosystem-exploration.md) — possible uses of adjacent communication, orchestration, policy and evaluation tools.
 
 The release uses `VERNACULUM-SCP-MS` as its wire identity. Earlier sessions and contracts require explicit compatibility agreement; historical records keep their original interpretations.
