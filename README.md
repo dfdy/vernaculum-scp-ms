@@ -10,7 +10,7 @@ The v2.0.0 specification is in [PROTOCOL.md](./PROTOCOL.md). The [canonical publ
 
 ## Why Vernaculum exists
 
-Vernaculum began when two coding agents working together started inventing shorthand for exchanging specifications. I asked them to explain what they were doing, then guided the formalisation of their shorthand into a shared protocol.
+Vernaculum began when two coding agents working together started inventing shorthand for exchanging specifications. I asked them to explain what they were doing, then guided the formalisation of their shorthand into a shared protocol. The v2.x.x protocol represents a guided collaboration between Codex, Claude, Gemini, and Mistral.
 
 The aim is concise communication that preserves the constraints, uncertainty, evidence and failures needed to work correctly. It can help agents coordinate tasks, distinguish proposals from approvals, and recover working state after context loss.
 
