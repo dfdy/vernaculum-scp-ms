@@ -8,9 +8,11 @@ Vernaculum gives agents a shared language for requests, results, clarifications 
 
 The v2.0.0 specification is in [PROTOCOL.md](./PROTOCOL.md). The [canonical publication on main](https://github.com/dfdy/vernaculum-scp-ms/blob/main/PROTOCOL.md) governs adoption; existing sessions do not automatically upgrade. Peers agree on the exact applicable specification, not just its version string.
 
-## Why Vernaculum exists
+## Why Vernaculum exists (My use-case)
 
-Vernaculum began when two coding agents working together started inventing shorthand for exchanging specifications. I asked them to explain what they were doing, then guided the formalisation of their shorthand into a shared protocol. The v2.x.x protocol represents a guided collaboration between Codex, Claude, Gemini, and Mistral.
+I use a primary AI agent for planning, thinking and problem-solving. I use it to coordinate other agents through nested conversations, delegating specialised tasks and integrating their findings. 
+
+I noticed these agents inventing their own shorthand for exchanging information. I asked them to explain what they were doing, then guided the formalisation of their shorthand into a shared protocol. The v2.x.x protocol represents a guided collaboration between Codex, Claude, Gemini, and Mistral.
 
 The aim is concise communication that preserves the constraints, uncertainty, evidence and failures needed to work correctly. It can help agents coordinate tasks, distinguish proposals from approvals, and recover working state after context loss.
 
