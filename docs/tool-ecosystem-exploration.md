@@ -1,6 +1,6 @@
 # How Vernaculum could learn from the agent-tool ecosystem
 
-**Vernaculum SCP:MS v1.1.0 — Accepted / Active / Stable.**
+**Vernaculum SCP:MS v1.1.1 — Accepted / Active / Stable.**
 
 Vernaculum supplies a voluntary shared language for agents, durable knowledge and continuity. Adjacent tools could make collaboration easier without expanding the specification into a transport, runtime or security system. This exploration considers where each tool could help, what Vernaculum could learn from it, and where the boundary belongs.
 
@@ -22,7 +22,7 @@ The recommendation under the current contract is to begin with existing permitte
 
 These consequences follow from the current [protocol](../PROTOCOL.md), especially Sections 3–7, 9 and 10. The linked [overview](../OVERVIEW.md) still contains release-candidate structures, including a fingerprint-based `hello`, scopes and schema-validation claims; those are not the current contract and should not be used to build an adapter.
 
-## Start with the v1.1.0 contract
+## Start with the v1.1.1 contract
 
 A participating agent reads the **whole canonical Markdown specification into working context** before claiming adherence. It reloads the whole text after recognised compaction, recovery, resumption, interruption or uncertainty. A summary, checkpoint, retrieved fragment or generated representation cannot replace it. An agent unable to read it discloses that limitation.
 
@@ -78,7 +78,7 @@ Any schema would be an optional derivative aid, not a second normative specifica
 
 ### XGrammar: reduce formatting errors where inference is useful
 
-[XGrammar](https://github.com/mlc-ai/xgrammar) is relevant to constrained model output. A deployment could investigate generating an internal structured proposal and converting it into the actual inline YAML message. A custom YAML grammar would need deliberate agreement on the supported representation; Vernaculum v1.1.0 does not mandate a byte-exact serializer or a particular parser library.
+[XGrammar](https://github.com/mlc-ai/xgrammar) is relevant to constrained model output. A deployment could investigate generating an internal structured proposal and converting it into the actual inline YAML message. A custom YAML grammar would need deliberate agreement on the supported representation; Vernaculum v1.1.1 does not mandate a byte-exact serializer or a particular parser library.
 
 The lesson is to avoid spending inference on repairable formatting errors. First compare ordinary templates and a reliable serializer with constrained generation: fixed envelopes and known values may need no model generation at all. A serializer must emit the restricted YAML data model, preserve strings such as version identifiers, and avoid anchors or tags. A constrained result can still contain a false assertion, inadequate instruction or unauthorised request. An internal JSON intermediate does not become an alternative wire format, and generated constraints do not replace the whole specification in the agent's context.
 
