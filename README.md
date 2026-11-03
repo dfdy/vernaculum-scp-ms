@@ -1,4 +1,4 @@
-# Vernaculum: Semantic Communication Protocol, Minimum Sufficient
+# Vernaculum Semantic Communication Protocol, Minimum Sufficient
 
 Vernaculum gives agents a shared language for requests, results, clarifications and handoffs. It defines communication semantics, with optional extensions for additional agreed meanings. People and host systems retain authority over permissions and execution.
 
