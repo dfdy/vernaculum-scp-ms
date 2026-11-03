@@ -9,7 +9,7 @@ Vernaculum gives agents a shared language for requests, results, clarifications 
 
 The v2.0.0 specification is in [PROTOCOL.md](./PROTOCOL.md). The [canonical publication on main](https://github.com/dfdy/vernaculum-scp-ms/blob/main/PROTOCOL.md) governs adoption; existing sessions do not automatically upgrade. Peers agree on the exact applicable specification, not just its version string.
 
-## Why Vernaculum exists (My use-case)
+## Why Vernaculum exists (my use-case)
 
 I use a primary AI agent for planning, thinking and problem-solving. I use it to coordinate other agents through nested conversations, delegating specialised tasks and integrating their findings. 
 
