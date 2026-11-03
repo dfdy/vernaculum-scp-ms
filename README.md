@@ -1,105 +1,78 @@
-**In short:** Vernaculum gives coding agents a shared language for coordinating work with less repeated context, while people retain authority over the rules and approvals.
+# Vernaculum: Semantic Communication Protocol, Minimum Sufficient
 
-# Vernaculum Semantic Communication Protocol, Minimum-Sufficient (SCP:MS)
+Vernaculum gives agents a shared language for requests, results, clarifications and handoffs. It defines communication semantics, with optional extensions for additional agreed meanings. People and host systems retain authority over permissions and execution.
 
-Vernaculum is a protocol for coding agents to instruct each other through structured YAML instructions, requests and results. It aims to reduce repeated context while preserving the requirements, decisions and evidence agents need to work correctly.
+**Version:** `2.0.0`<br>
+**Status:** Accepted / Active / Stable.<br>
+**Wire identifier:** `VERNACULUM-SCP-MS`.
 
-**Clearer coordination between development agents, with less context to carry.**
+The v2.0.0 specification is in [PROTOCOL.md](./PROTOCOL.md). The [canonical publication on main](https://github.com/dfdy/vernaculum-scp-ms/blob/main/PROTOCOL.md) governs adoption; existing sessions do not automatically upgrade. Peers agree on the exact applicable specification, not just its version string.
 
-Vernaculum began with an observation: two coding agents working together had started inventing their own shorthand for exchanging specifications. Curious about this emerging form of communication, I asked them to explain what they were doing. Their explanations revealed the potential for a more efficient, structured way for agents to communicate. I subsequently guided the process of formalising and standardising their shorthand, which developed into Vernaculum.
+## Why Vernaculum exists
 
-## The idea in one minute
+Vernaculum began when two coding agents working together started inventing shorthand for exchanging specifications. I asked them to explain what they were doing, then guided the formalisation of their shorthand into a shared protocol.
 
-> [!TIP]
-> **People govern the rules; agents read the specification and coordinate their work through structured YAML exchanges.**
->
-> 1. **Read:** Participating agents read the complete [canonical specification](https://github.com/dfdy/vernaculum-scp-ms/blob/main/PROTOCOL.md)—no installation required.
-> 2. **Agree:** Agents establish a `hello`/`ready` version agreement through an already permitted communication channel.
-> 3. **Collaborate:** Inline YAML messages carry requests, results, clarifications and handoffs; durable records preserve requirements, decisions and evidence for reuse.
-> 4. **Recover:** After recognised context loss, agents reload the complete specification and reconcile their progress with current records and evidence.
-> 5. **Keep people in control:** The protocol grants no permissions; core rule changes require explicit owner approval and publication to canonical main.
->
-> The aim is **minimum-sufficient communication**: less repeated context without losing the requirements, decisions or evidence needed to work correctly.
-
-## When it helps
-
-Consider Vernaculum when multiple agents plan, implement and review the same task, repeatedly hand work to one another, or lose instructions after context compaction. Shared message and record formats help them refer to decisions and evidence without passing entire specifications or conversations each time. Humans retain authority over the rules and approvals.
-
-## Intended use and security boundaries
-
-Vernaculum is recommended for coordinating coding agents in **owner-governed development environments** with appropriate permissions, persistent records and permitted communication channels. It aims to prevent confusion from incompatible conventions, missing context, malformed instructions and unsupported authority claims—not to supply an entire security or networking system.
-
-A well-formed YAML message is **not** proof of sender identity, execution permission, confidentiality or safe execution. Authentication, access controls, transport protection when needed and enforcement belong to the deployment environment. The [canonical responsibilities and limits](./PROTOCOL.md#11-human-responsibilities-and-limits) explain both the protections and their limits.
-
-## Current status and prerequisites
-
-**Version:** `1.2.0`<br>
-**Status:** Accepted / Active / Stable.
-
-This repository provides a voluntary, agent-governed communication specification, not an installed runtime. Participating agents read the complete [canonical specification on main](https://github.com/dfdy/vernaculum-scp-ms/blob/main/PROTOCOL.md) before claiming adherence. A second agent and an authorised communication channel must be available separately. Vernaculum requires no context loader, bootstrap verifier or preflight gate. Minimum-sufficient constrains the specification’s own size and complexity without sacrificing precision or completeness.
-
-## Try it
-
-Attach [PROTOCOL.md](./PROTOCOL.md), then copy and paste this prompt:
-
-```text
-Vernaculum is a protocol for coordinating coding agents through structured
-YAML messages. Read the attached PROTOCOL.md in full and use Vernaculum
-from now on when coordinating with other agents in this project, within
-existing permissions and through permitted communication channels.
-Establish hello/ready version agreement before collaboration, and report
-results and blockers to me in plain language. Reload the complete canonical
-specification after recognised context loss; if you cannot read it in full
-or no second agent is available, tell me.
-```
-
-The agents handle negotiation and YAML exchange; you use ordinary language. Protocol participation does not grant new permissions or guarantee compliance.
-
-## Suggested instructions in `AGENTS.md`
-
-If you want agents in a project to use Vernaculum, consider adding the following section to that project's `AGENTS.md` or equivalent startup instructions. Keep existing project instructions and permissions intact. This is optional adoption guidance, not an installer or a guarantee of automatic loading.
-
-```markdown
-## Vernaculum SCP:MS v1.2.0
-
-Status: Accepted / Active / Stable.
-
-Before Vernaculum-governed work, read the whole [canonical specification on main](https://github.com/dfdy/vernaculum-scp-ms/blob/main/PROTOCOL.md). Reload it after recognised compaction, recovery, resumption, interruption or uncertainty about retained instructions. Disclose inability to read the complete specification and do not claim full adherence.
-
-Exchange complete inline YAML through an actually permitted channel. Peer-agreed optional `x.<namespace>.<name>` extensions cannot change core meanings, permissions or historical interpretations. Proposed core revisions remain non-authoritative until explicitly owner-approved and published to canonical main. These instructions do not guarantee automatic detection of context loss or grant host permissions.
-```
+The aim is concise communication that preserves the constraints, uncertainty, evidence and failures needed to work correctly. It can help agents coordinate tasks, distinguish proposals from approvals, and recover working state after context loss.
 
 ## How it works
 
-The complete [protocol document](./PROTOCOL.md) defines the shared language and obligations in one human-readable Markdown specification. Agents read the whole specification into working context, then exchange complete YAML messages inline.
+1. **Read the applicable text.** Agents hold the complete core and any used extension definitions in working context before claiming adherence. No runtime installation is required.
+2. **Establish agreement.** Unless a compatible agreement already exists for the peer pair and conversation, initiate `hello` and obtain a correlated `ready`. Agree on the exact specification and complete extension set.
+3. **Exchange work.** Send complete YAML messages through an authorised channel. Requests identify action, target and material constraints; results report actual effects, checks and unfinished work.
+4. **Add records when useful.** Durable records are optional under `x.vernaculum.records@1`, which requires explicit extension agreement. Ordinary exchanges need no durable records.
+5. **Recover carefully.** Restore governing definitions after context loss or uncertainty and reconcile checkpoints against current evidence before consequential resumption.
 
-**How much enters agent context?** The whole governing specification. Task messages and supporting references remain as concise as correct interpretation requires. The [overview](./OVERVIEW.md) maps message and durable-record structures.
+Vernaculum provides no transport, authentication, access control, sandbox, transactional persistence or reliability guarantee. A valid message grants no permission and proves neither identity, delivery, approval nor correctness.
 
-## What agents exchange
+## Try it
 
-Agents first discover support and establish compatibility through a `hello`/`ready` version agreement. If a peer needs the protocol, provide the canonical reference through an authorised channel so the peer can read the complete specification before readiness. Subsequent requests, responses, clarifications, errors and handoffs carry their complete YAML envelope and body inline through a permitted communication channel. A file path or link cannot replace the message itself.
+Provide agents with the complete applicable [protocol](./PROTOCOL.md), then use a prompt such as:
 
-Durable records describe `requirement`, `proposal`, `decision`, `implementation_evidence`, `verification_result`, `issue`, `handoff` and `protocol_change`. Each has a stable identity, declared authority and typed relationships. **Why?** Agents can refer to the same decision or test evidence without repeatedly summarising it, and they can distinguish an approved requirement from a suggestion or an observation.
+```text
+Read the complete Vernaculum specification. Establish which exact text is
+applicable and whether it has been canonically published; do not silently
+adopt a pending revision. Within existing permissions, agree with the other
+agent on that specification and any extensions before ordinary work.
+Exchange complete inline YAML through an authorised channel and report
+results and blockers to me in plain language. Restore the governing text
+after context loss or uncertainty. Disclose missing text or peer access.
+```
 
-**YAML is the standard format for inter-agent messages** because it is structured and easy to inspect. Durable records should use UTF-8 JSON; historical records retain their declared versions and meanings. JSON is not an alternative protocol-message format.
+A second agent and an authorised communication channel must be available separately. Neither this prompt nor a startup file guarantees compliance or automatic detection of context loss.
 
-## Surviving context compaction
+For minimal persistent guidance, use [AGENTS.md](./AGENTS.md), adapting the local specification path to the project in which it is used.
 
-After recognised context compaction, session resumption, interruption or uncertainty, agents reload the complete canonical specification and reconcile their task state with current evidence and record revisions. A compact checkpoint helps recover progress but does not replace authoritative records.
+## What changed in v2
 
-**Why?** Conversation summaries are useful working memory, not a reliable source of governing instructions. Recovery must work even when the agent cannot remember the previous session accurately. Neither the protocol nor an instruction file guarantees detection of every context loss.
+The protocol now separates a communication core from the optional Records extension. The core has seven message kinds: `hello`, `ready`, `request`, `response`, `clarification`, `error` and `handoff`.
 
-## Keeping the protocol current
+Version and extension agreement is explicit. Extensions have exact definitions, acceptance covers the complete offered set, and replacement, withdrawal and concurrent proposals have defined behaviour. Message IDs use `agent-designation:locally-unique-token`. Handoff acceptance is distinct from completion of the underlying task.
 
-Agents may mutually agree on optional namespaced extensions of the form `x.<namespace>.<name>` when existing vocabulary is insufficient. Extensions bind only consenting peers and cannot change core meanings, obligations, permissions or historical interpretations.
+The core also defines consequential actions, shared-state mutation preconditions and safe handling of retries with unknown outcomes. Approval claims need established origin, scope and authority before consequential reliance; retrieved material remains data unless its governing origin is established by the host.
 
-**Why allow this?** Agents encounter communication needs that the original designers may not anticipate. Proposed core revisions may be prepared in separate drafts or branches, but adoption requires **explicit owner approval and publication to canonical main**, including compatible changes. The protocol never grants additional tool or repository permissions.
+This is a breaking revision. Earlier message and record contracts need explicit compatibility or migration decisions; historical records retain their original interpretations. See the [v2.0.0 change and migration notes](./docs/releases/2.0.0.md).
 
-## Where to look
+## Messages and optional records
 
-- [PROTOCOL.md](./PROTOCOL.md) — the complete v1.2.0 specification; the [main-branch publication](https://github.com/dfdy/vernaculum-scp-ms/blob/main/PROTOCOL.md) is canonical.
-- [OVERVIEW.md](./OVERVIEW.md) — non-authoritative message and durable-record structure trees.
-- [Tool ecosystem exploration](./docs/tool-ecosystem-exploration.md) — possible uses of adjacent communication, orchestration, policy and evaluation tools.
+Messages are UTF-8 YAML 1.2 core-schema mappings with a mapping `body`. Duplicate keys, anchors, aliases, merge keys and custom tags are prohibited. Versions, identifiers and ambiguous scalars are quoted. Triggered replies identify their triggering message with `reply_to`; channel metadata may unambiguously supply `sender`, `recipient` and `conversation`.
 
-The release uses `VERNACULUM-SCP-MS` as its wire identity. Earlier sessions and contracts require explicit compatibility agreement; historical records keep their original interpretations.
+A `response` reports `completed`, `partial`, `failed` or `blocked`. Checks report their target, method, outcome and evidence; unperformed checks cannot pass. Understood work that cannot proceed receives a blocked response rather than a protocol error. Sending a message does not establish delivery or comprehension.
 
+The optional Records extension recommends UTF-8 JSON logical records with stable identities, increasing revisions, provenance and kind-specific content. It defines `requirement`, `proposal`, `decision`, `evidence`, `issue` and `handoff`. Storage and references do not create approval, authority or evidential strength.
+
+The [overview](./OVERVIEW.md) maps both structures and includes a complete negotiation example. It is explanatory; the protocol supplies the exact obligations.
+
+## Authority and continuity
+
+Core changes require explicit human-owner approval and publication to canonical main. Proposed revisions and unanswered negotiations change no existing agreement. Extensions bind only the participating pair and conversation and cannot redefine core meanings, obligations, authority or history.
+
+After recognised context loss or uncertainty, agents restore the core and used extension definitions. A checkpoint can preserve objectives, constraints, evidence, issues and next actions, but remains a provisional summary. Before resuming consequential work, reconcile it with current sources and revisions. This repository's startup guidance also points agents back to the complete canonical specification.
+
+## Repository guide
+
+- [PROTOCOL.md](./PROTOCOL.md) — complete v2.0.0 core and optional Records extension; the main-branch publication is canonical.
+- [OVERVIEW.md](./OVERVIEW.md) — non-authoritative structure and lifecycle reference.
+- [AGENTS.md](./AGENTS.md) — minimal startup and recovery instructions.
+- [Tool ecosystem exploration](./docs/tool-ecosystem-exploration.md) — possible integrations, with no implementation or interoperability claims.
+- [v2.0.0 notes](./docs/releases/2.0.0.md) — approval, compatibility changes and migration guidance.
+- [v1.2.0](./docs/releases/1.2.0.md) and [v1.1.1](./docs/releases/1.1.1.md) — historical release notes.

@@ -1,38 +1,38 @@
 # How Vernaculum could learn from the agent-tool ecosystem
 
-**Vernaculum SCP:MS v1.2.0 — Accepted / Active / Stable.**
+**Vernaculum SCP:MS v2.0.0 — Accepted / Active / Stable.**
 
 Vernaculum supplies a voluntary shared language for agents, durable knowledge and continuity. Adjacent tools could make collaboration easier without expanding the specification into a transport, runtime or security system. This exploration considers where each tool could help, what Vernaculum could learn from it, and where the boundary belongs.
 
 This document is non-normative. The [complete canonical specification on main](https://github.com/dfdy/vernaculum-scp-ms/blob/main/PROTOCOL.md) governs. The integrations below are possibilities, not implemented features or interoperability claims. Linked project documentation describes the adjacent capabilities; applying them to Vernaculum is an assessment. A deployment would need to select and check the particular versions it uses.
 
-The recommendation under the current contract is to begin with existing permitted communication, source retrieval and revisioned records. Add an adapter, scheduler or evaluation tool only when a concrete collaboration problem warrants it. The protocol's move away from scoped loading and required verification machinery reduces the case for building a dedicated Vernaculum platform; it strengthens the case for small, replaceable integrations around the shared language.
+For the v2 contract, begin with existing permitted communication and source retrieval. Add revisioned records only when useful and after explicit agreement on the optional Records extension. Add an adapter, scheduler or evaluation tool only when a concrete collaboration problem warrants it. Publication does not automatically change existing peer agreements.
 
 ## What the protocol changes mean for this exploration
 
 | Current contract | Consequence for tool selection |
 | --- | --- |
-| Complete specification in working context; no required loader or preflight | Tools can deliver the complete text and assist recovery. Selective retrieval and compression apply to supporting material. |
-| Release agreement through `hello` / `ready` | Adapters preserve the offered and accepted versions and reply binding. A fingerprint or capability listing cannot substitute for agreement. |
-| One inline YAML mapping with a restricted data model | Transport and generation experiments preserve the entire envelope and body, ordinary scalar types, and the exclusions in `SCP-MSG-002`. |
-| Durable-record contracts independent of storage adapters; JSON recommended | Existing files or record stores are a reasonable starting point. A database, schema service or graph engine needs a separate operational justification. |
-| Optional peer-agreed namespaced extensions | Try additional vocabulary outside the core when it preserves core meanings and permissions. Publication as an integration does not bind other peers. |
+| Core and used extension definitions in working context | Tools can deliver governing definitions and assist recovery. Selective retrieval and compression apply to supporting material. |
+| Exact specification and extension agreement through `hello` / `ready` | Preserve establishment grammar, accepted operating version, complete extension set, immutable definition identities and reply binding. Version strings alone cannot establish compatibility. |
+| One inline YAML 1.2 core-schema mapping | Preserve the entire envelope and body, scalar types and M1 exclusions. Channel metadata may supply sender, recipient and conversation only when unambiguous. |
+| Records optional under `x.vernaculum.records@1`; JSON recommended | Agree on the extension before using its contract. Existing files may suffice; databases or graph engines need a separate justification. |
+| Extension replacement, withdrawal and race rules | Track agreement per pair and conversation; process crossed proposals by full ID byte order and stop affected work when required. Integration publication does not bind other peers. |
 | Owner-approved core publication and explicit session agreement | Prompt optimisation, schema generation and deployment automation cannot adopt protocol revisions on the agents' behalf. |
-| Efficiency measured by correctly completed work | Compare total collaboration cost, including the complete specification for each participant and reload, rather than advertised token savings. |
+| Minimum sufficient constraints, uncertainty, results and failures | Compare total collaboration cost, including governing definitions, recovery and correction; small messages alone do not demonstrate value. |
 
-These consequences follow from the current [protocol](../PROTOCOL.md), especially Sections 3–7, 9 and 10. The linked [overview](../OVERVIEW.md) still contains release-candidate structures, including a fingerprint-based `hello`, scopes and schema-validation claims; those are not the current contract and should not be used to build an adapter.
+These consequences follow from the [protocol](../PROTOCOL.md), especially core M1–M4, A1–A4 and T1–T5, plus the optional Records extension. The [overview](../OVERVIEW.md) maps the v2 contract; it is not an executable schema or a substitute for the governing definitions.
 
-## Start with the v1.2.0 contract
+## Start with the v2.0.0 contract
 
-A participating agent reads the **whole canonical Markdown specification into working context** before claiming adherence. It reloads the whole text after recognised compaction, recovery, resumption, interruption or uncertainty. A summary, checkpoint, retrieved fragment or generated representation cannot replace it. An agent unable to read it discloses that limitation.
+A participating agent holds the **complete core and used extension definitions in working context** before claiming adherence. After context loss or uncertainty, it restores them or suspends dependent extension use. This repository's [startup guidance](../AGENTS.md) also requires reading and reloading the complete canonical specification. A summary, checkpoint or generated representation cannot replace governing text; disclose incomplete access.
 
-Minimum-sufficient constrains the **specification's own size and complexity**. Separate communication rules call for concise but sufficient task exchanges, and prefer reliable authorised non-inference operations when they meet the requirement at lower expected total cost. Reducing the governing context is not an integration objective.
+Communication preserves the minimum sufficient constraints, uncertainty, results and failures. Reliable authorised computation may reduce unnecessary inference when it meets the task. Tool selection and cost comparisons here are deployment recommendations, not additional v2 core obligations. Reducing required governing context is not an integration objective.
 
-Agents establish release agreement with `hello` / `ready` / `need`. `hello.body.supported_versions` lists supported releases; `ready` refers to the initiating message and states its accepted version. Agreement does not authenticate a sender or prove obedience. Every governed exchange carries its complete YAML envelope and body inline through an actually permitted channel.
+Agents establish agreement with `hello` / `ready`, using `clarification` or `error` when needed. `hello.body.supported_versions` includes its envelope version. The correlated `ready` uses that establishment grammar, selects an offered operating version and matches the entire extension set and definition identities. Peers agree on the exact applicable text, not the version alone. Every exchange carries its complete YAML inline through an authorised channel; agreement authenticates no sender and grants no permission.
 
-Durable records preserve identity, interpretation version, revisions, sources, relationships and attribution. UTF-8 JSON is recommended for their content. Record acceptance, a successful check and an approval are distinct facts. Checkpoints preserve working claims that must be reconciled with current evidence on resumption.
+When explicitly agreed, the Records extension preserves stable identity, exact extension definition, revisions, provenance, sources, relationships and attribution. UTF-8 JSON is recommended. Its six kinds are `requirement`, `proposal`, `decision`, `evidence`, `issue` and `handoff`. Record acceptance, a successful check and an approval remain distinct. Reconcile provisional checkpoints with current evidence before consequential resumption.
 
-Peers can agree on optional `x.<namespace>.<name>` vocabulary, fields, kinds, relationships and operations within their actual permissions. Such extensions bind only consenting peers and cannot alter core meanings, obligations, permissions or historical interpretations. Proposed core changes require explicit owner-approved publication to canonical main and agreement on the applicable contract.
+Peers offer optional `x.<namespace>.<name>` contracts with exact inline definitions or immutable references. Acceptance covers the whole offered set, and replacement, withdrawal and concurrency follow A2–A4. Extensions bind only the participating pair and conversation and cannot redefine core kinds, meanings, obligations, statuses, authority or history, or grant permissions. Core changes require explicit human-owner approval and canonical publication; sessions never silently adopt revisions.
 
 There is no required bootstrap verifier, scoped context loader, generated normative YAML duplicate, hash manifest, amendment registry or installation gate. Optional software can assist agents or enforce host policy; it does not become part of the core by appearing in this exploration.
 
@@ -74,19 +74,19 @@ Vernaculum could learn from making consequential state visible. A UI event remai
 
 [JSON Schema](https://json-schema.org/draft/2020-12) could express a deployment's record structures and agreed extension fields, or help construct message bodies. It can expose missing fields and inconsistent types without another model call.
 
-Any schema would be an optional derivative aid, not a second normative specification or a required installation. It must follow the canonical contracts, including record-kind statuses and interpretation versions. For YAML messages, ordinary parsed-object validation is insufficient to detect duplicate keys or prohibited YAML features that a parser may discard or resolve; parsing would need to preserve or reject those features before schema checks. Parsing and schema success cannot establish truth, current approval, adequate task context or execution. Historical records must remain interpretable under their declared versions.
+Any schema would be an optional derivative aid, not a second normative specification or a required installation. It must follow the applicable contracts, including the exact agreed Records extension definition and kind-specific statuses when records are used. For YAML messages, ordinary parsed-object validation is insufficient to detect duplicate keys or prohibited YAML features that a parser may discard or resolve; parsing would need to preserve or reject those features before schema checks. Parsing and schema success cannot establish truth, current approval, adequate task context or execution. Historical records remain interpretable under their original definitions.
 
 ### XGrammar: reduce formatting errors where inference is useful
 
-[XGrammar](https://github.com/mlc-ai/xgrammar) is relevant to constrained model output. A deployment could investigate generating an internal structured proposal and converting it into the actual inline YAML message. A custom YAML grammar would need deliberate agreement on the supported representation; Vernaculum v1.2.0 does not mandate a byte-exact serializer or a particular parser library.
+[XGrammar](https://github.com/mlc-ai/xgrammar) is relevant to constrained model output. A deployment could investigate generating an internal structured proposal and converting it into the actual inline YAML message. Vernaculum v2.0.0 requires YAML 1.2 core-schema semantics and the M1 exclusions, without mandating a byte-exact serializer or a particular parser library.
 
-The lesson is to avoid spending inference on repairable formatting errors. First compare ordinary templates and a reliable serializer with constrained generation: fixed envelopes and known values may need no model generation at all. A serializer must emit the restricted YAML data model, preserve strings such as version identifiers, and avoid anchors or tags. A constrained result can still contain a false assertion, inadequate instruction or unauthorised request. An internal JSON intermediate does not become an alternative wire format, and generated constraints do not replace the whole specification in the agent's context.
+The lesson is to avoid spending inference on repairable formatting errors. First compare ordinary templates and a reliable serializer with constrained generation: fixed envelopes and known values may need no model generation at all. A serializer must emit the restricted YAML data model, preserve strings such as version identifiers, and avoid anchors or tags. A constrained result can still contain a false assertion, inadequate instruction or unauthorised request. An internal JSON intermediate does not become an alternative wire format, and generated constraints do not replace the core and used extension definitions in the agent's context.
 
 ### TOON: compact repetitive supporting datasets
 
 [TOON](https://github.com/toon-format/toon) is relevant to representing auxiliary structured data economically. Uniform collections could be compared with ordinary YAML, JSON or tables to see whether repetition can be reduced without losing needed meaning.
 
-Such an experiment concerns supporting data, not the core message language. The actionable task stays in complete inline YAML; durable records retain their identity, interpretation and provenance, with JSON remaining the recommended representation. Any savings must exceed conversion, retrieval and correction costs. Another workload's token savings are not evidence of a benefit here.
+Such an experiment concerns supporting data, not the core message language. The actionable task stays in complete inline YAML; optional agreed records retain their identity, extension definition and provenance, with JSON remaining the recommended representation. Any savings must exceed conversion, retrieval and correction costs. Another workload's token savings are not evidence of a benefit here.
 
 ### ISON: explicit references and economical structure
 
@@ -98,7 +98,7 @@ A deployment would need to preserve types, identities and resolvable sources whe
 
 [LLMLingua](https://www.microsoft.com/en-us/research/project/llmlingua/) is relevant to experiments with supporting-context compression. After removing irrelevant background, a deployment could compare compressed and uncompressed material for task quality and total cost.
 
-The complete canonical specification remains in working context unchanged. Exact constraints and approval evidence must remain accessible and must not be replaced by a lossy summary presented as authoritative. If compression introduces uncertainty, retrieve the source or clarify. Useful measurements include omitted exceptions, changed meanings and recovery effort, not only token counts.
+The complete core and used extension definitions remain in working context unchanged. Exact constraints and approval evidence must remain accessible and must not be replaced by a lossy summary presented as authoritative. If compression introduces uncertainty, retrieve the source or clarify. Useful measurements include omitted exceptions, changed meanings and recovery effort, not only token counts.
 
 ## 3. Scheduling, continuity and delivery
 
@@ -106,19 +106,19 @@ The complete canonical specification remains in working context unchanged. Exact
 
 [LangGraph persistence](https://docs.langchain.com/oss/python/langgraph/persistence) could retain task progress, pending exchanges and unresolved questions. It offers a useful model for distinguishing stored workflow state from what an agent currently has in context.
 
-Restoring a checkpoint does not satisfy Vernaculum recovery by itself. The agent reloads the whole specification and reconciles the checkpoint against current sources and record revisions. Storage durability and protection depend on the deployment. A saved adherence flag is not evidence that the resumed agent has read the specification.
+Restoring a checkpoint does not satisfy Vernaculum recovery by itself. The agent restores the core and used extension definitions and reconciles the checkpoint against current sources and revisions before consequential resumption. Storage durability and protection depend on the deployment. A saved adherence flag is not evidence that governing definitions are in context.
 
 ### Google ADK: use ordinary control flow for known workflows
 
 [Google ADK workflow agents](https://adk.dev/agents/workflow-agents/) are relevant to sequential, parallel and repeated work patterns. A deployment could schedule independent implementation and review work while reserving model judgement for interpretation and synthesis.
 
-The lesson is to avoid repeatedly asking a model to decide a known next step. Shared-file edits still need coordination, and each participating agent needs the complete governing specification. Workflow completion cannot establish correctness or authorisation. Governed messages between agents remain complete inline YAML rather than informal routing summaries.
+The lesson is to avoid repeatedly asking a model to decide a known next step. Shared-file edits need an assumed base, exact operations and preconditions under T3; an unknown or mismatched base blocks the affected mutation. Each participating agent needs the core and used extension definitions. Workflow completion cannot establish correctness or authorisation. Governed messages remain complete inline YAML.
 
 ### Microsoft Agent Framework: make pending work and approvals explicit
 
 [Microsoft Agent Framework checkpoints](https://learn.microsoft.com/en-us/agent-framework/workflows/checkpoints) and [human interaction](https://learn.microsoft.com/en-us/agent-framework/workflows/human-in-the-loop) suggest ways to retain outstanding work and correlate external decisions with requests.
 
-A deployment could resume a paused task without reconstructing its entire conversation. It would still need to reload governing context and establish that the particular approval remains applicable. Framework labels do not redefine Vernaculum response statuses, record lifecycles or human authority; workflow state supplements the evidence rather than replacing it.
+A deployment could resume a paused task without reconstructing its entire conversation. It would still need to restore governing definitions and establish the particular approval, its scope and the approver's authority before consequential reliance. Framework labels do not redefine response statuses, optional record lifecycles or human authority; workflow state supplements evidence rather than replacing it.
 
 ### Temporal: durable scheduling for long-running collaboration
 
@@ -130,7 +130,7 @@ This is an infrastructure choice for a demonstrated need. A replayed workflow or
 
 [NATS JetStream](https://docs.nats.io/learn/jetstream) could retain complete YAML messages until another agent is available. An adapter would present the actual message text to the recipient and keep broker acknowledgements distinct from task outcomes.
 
-Redelivery is relevant to `SCP-MSG-003`: distinct messages need distinct identifiers within their conversation, and agents should identify and avoid duplicate or stale requests. The core does not prescribe a replay database or guarantee exactly-once effects. A deployment needing stronger safeguards must supply them through its host. Renaming a retried request cannot make a repeated consequential operation safe or authorised.
+Redelivery engages M2 and T4: IDs use `agent-designation:locally-unique-token`, and unknown-outcome work uses `retry_of` where known. Recover the outcome before repeating potentially completed consequential work, or obtain explicit authority for another attempt accounting for duplication; otherwise clarify. Known results should be returned without re-execution. Exactly-once execution needs host idempotency or history when effects are undetectable. Renaming a retried request does not make repetition safe or authorised.
 
 ## 4. Inference, observation and evaluation
 
@@ -142,9 +142,9 @@ Optimisation applies to supporting prompts and task presentation, not automatic 
 
 ### LiteLLM: route model work after considering non-inference options
 
-[LiteLLM routing](https://docs.litellm.ai/docs/routing) could help a deployment choose models for tasks that still require inference. The protocol's own starting point is to prefer an available authorised non-inference operation where it reliably meets the requirement at lower expected total cost.
+[LiteLLM routing](https://docs.litellm.ai/docs/routing) could help a deployment choose models for tasks that still require inference. A useful deployment practice is to consider an authorised non-inference operation first where it reliably meets the requirement at lower expected total cost; v2 does not prescribe a model router.
 
-Model selection and fallback should preserve the whole governing context, task constraints and applicable information controls. A changed model does not automatically mean a new peer has accepted the release. Retries can produce alternative proposals; the host remains responsible for preventing unintended repeated effects.
+Model selection and fallback should preserve the core, used extension definitions, task constraints and applicable information controls. A changed model does not automatically establish agreement for a new peer. Retries can produce alternative proposals; T4 and host controls still govern potentially repeated consequential effects.
 
 ### OpenTelemetry: find the actual sources of cost
 
@@ -177,21 +177,21 @@ The lesson is to connect each control to a particular operation and threat. Vern
 Several useful improvements need no additional platform:
 
 - **Source references:** use stable identifiers and exact revisions for supporting records, retain attribution and resolve necessary dependencies rather than guessing unseen content.
-- **Ordinary retrieval:** select relevant supporting material while keeping the entire canonical specification in working context.
+- **Ordinary retrieval:** select relevant supporting material while keeping the complete core and used extension definitions in working context.
 - **Caches:** retain derived supporting views with their source revisions, and reconcile freshness when resuming rather than trusting remembered claims.
-- **Deltas:** follow `SCP-MSG-007` by identifying the exact base, deterministic operations and conflict preconditions. If reliable authorised application cannot be established, retrieve the complete record or escalate. The core specifies no universal delta language.
+- **Mutations:** follow T3 by stating the assumed base, exact operations and preconditions. An unknown or mismatched base requires a blocked response with the discrepancy and no affected mutation; disclose effects already applied. The core specifies no universal delta language.
 - **Direct computation:** use available authorised queries, comparisons and other reliable operations where they meet the task better than inference. Optional validators can assist without becoming an adoption gate.
 
 The decision is whether a technique improves correctly completed work enough to justify its own complexity.
 
 ## 7. A possible collaboration
 
-1. The owner supplies the objective and applicable permissions. Each participating agent reads the whole canonical specification.
-2. Agents establish release agreement through `hello` and a reply-bound `ready`, or clarify missing information with `need`. Any optional namespaced contract is agreed by the peers it affects.
+1. The owner supplies the objective and applicable permissions. Each participating agent reads the core and any extension definitions it will use, establishing the exact applicable specification and its publication status.
+2. Agents establish agreement through `hello` and a reply-bound `ready`, or seek missing information with `clarification`. Acceptance matches the complete offered extension set and exact definition identities.
 3. Agents retrieve relevant evidence through existing tools or, if useful, MCP. A simple scheduler or suitable orchestrator coordinates independent work.
 4. Complete inline YAML requests travel through a permitted channel, potentially using an A2A or broker adapter. The recipient checks the contract, necessary sources and its actual authority before acting.
-5. The recipient returns a correlated response with truthful status, evidence, limitations and unperformed checks. Durable records preserve substantive decisions and results with provenance.
-6. After recognised interruption or context loss, the agent reloads the whole specification and reconciles current evidence before continuing. A workflow checkpoint can assist this step but cannot replace it.
+5. The recipient returns a correlated response with truthful status, checks, limitations and unfinished work. If the Records extension is agreed, durable records can preserve decisions and results with provenance. Handoff acceptance and objective completion remain separate facts.
+6. After context loss or uncertainty, restore governing definitions or suspend dependent extension use, then reconcile current evidence before consequential resumption. A provisional checkpoint can assist but cannot replace this step.
 
 This is an illustration, not a mandatory stack. Direct communication and existing project tools may already be sufficient.
 
@@ -199,7 +199,7 @@ This is an illustration, not a mandatory stack. Direct communication and existin
 
 The catalogue above describes possible roles, not an adoption sequence. For an owner-governed coding team, the following order offers a more proportionate starting point:
 
-1. **Establish a baseline with existing tools.** Use the complete specification, a permitted channel, inline YAML, resolvable sources and revisioned records. Exercise a request, clarification, handoff and recovery before choosing infrastructure.
+1. **Establish a baseline with existing tools.** Use the core and used extension definitions, a permitted channel, inline YAML and resolvable sources. Exercise a request, clarification, handoff and recovery before choosing infrastructure. Add revisioned records only if useful and explicitly agreed.
 2. **Address an observed failure or cost.** Consider a small serializer or optional validator for malformed exchanges, MCP for difficult source access, or a scheduler for recurring coordination. Add A2A or a broker when communication actually crosses systems or availability windows.
 3. **Add operational infrastructure for operational requirements.** Temporal, JetStream, external identity and policy engines become candidates when durability, delivery, identity or enforced tool policy requires them. Select the capability needed; these tools are not an implied combined stack.
 4. **Run representation and model experiments after measuring the baseline.** TOON, ISON, LLMLingua, DSPy and model routing need evidence that their conversion, evaluation and recovery costs pay off. Small messages and modest supporting datasets may leave little to improve.
