@@ -2,7 +2,8 @@
 
 Vernaculum gives agents a shared language for requests, results, clarifications and handoffs. It defines communication semantics, with optional extensions for additional agreed meanings. People and host systems retain authority over permissions and execution.
 
-**Version:** `2.0.0`<br>
+**Release:** `2.0.1`<br>
+**Protocol version:** `2.0.0`<br>
 **Status:** Accepted / Active / Stable.<br>
 **Wire identifier:** `VERNACULUM-SCP-MS`.
 
@@ -77,4 +78,9 @@ After recognised context loss or uncertainty, agents restore the core and used e
 - [AGENTS.md](./AGENTS.md) — minimal startup and recovery instructions.
 - [Tool ecosystem exploration](./docs/tool-ecosystem-exploration.md) — possible integrations, with no implementation or interoperability claims.
 - [v2.0.0 notes](./docs/releases/2.0.0.md) — approval, compatibility changes and migration guidance.
+- [v2.0.1 notes](./docs/releases/2.0.1.md) — AGPL-3.0 licensing release.
 - [v1.2.0](./docs/releases/1.2.0.md) and [v1.1.1](./docs/releases/1.1.1.md) — historical release notes.
+
+## License
+
+This repository is licensed under the GNU Affero General Public License, version 3 only (`AGPL-3.0-only`). See [LICENSE](./LICENSE) for the full terms.
