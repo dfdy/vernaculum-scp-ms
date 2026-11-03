@@ -13,7 +13,7 @@ The v2.0.0 specification is in [PROTOCOL.md](./PROTOCOL.md). The [canonical publ
 
 I use a primary AI agent for planning, thinking and problem-solving, and to coordinate other agents through nested conversations, delegating specialised tasks and integrating their findings. 
 
-I noticed these agents inventing their own shorthand for exchanging information. I asked them to explain what they were doing, then guided the formalisation of their shorthand into a shared protocol. The v2.x.x protocol represents a guided collaboration between Codex, Claude, Gemini, and Mistral.
+I noticed these agents inventing their own shorthand for exchanging information. I asked them to explain what they were doing, then guided the formalisation of their shorthand into a shared protocol based in YAML. This maintains a degree of human readability. The v2.x.x protocol represents a guided collaboration between Codex, Claude, Gemini, and Mistral.
 
 The aim is concise communication that preserves the constraints, uncertainty, evidence and failures needed to work correctly. It can help agents coordinate tasks, distinguish proposals from approvals, and recover working state after context loss.
 
