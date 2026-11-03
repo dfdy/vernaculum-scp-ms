@@ -1,9 +1,9 @@
-# Vernaculum SCP:MS v1.1.1
+# Vernaculum SCP:MS v1.2.0
 
 **Semantic Communication Protocol — Minimum-Sufficient**
 
 **Status:** Accepted / Active / Stable.  
-**Release version:** `1.1.1`.  
+**Release version:** `1.2.0`.<br>
 **Wire identifier:** `VERNACULUM-SCP-MS`.  
 **Scope:** Voluntary structured inter-agent communication, durable records, continuity, and protocol evolution. This specification does not provide transport, a runtime, tool permissions, or security enforcement.
 
@@ -77,7 +77,7 @@
 | `handoff` | `objective`, `next_action` | Transfer working state and outstanding work |
 | `amendment_notice` | `amendment_id`, `version` | Notify peers of a proposed or published protocol revision |
 
-`response.status` MUST be one of `completed`, `partial`, `failed`, or `blocked`. A status describes the task outcome; it does not express approval, verified correctness, or acceptance of a durable record. An `amendment_notice` does not itself change a session's agreed version.
+`response.status` MUST be `completed`, `partial`, `failed`, or `blocked`. It describes the task outcome, not approval, verified correctness, or durable-record acceptance. A `response` body MAY include `summary` describing the outcome and `feedback` set to `requested` or `not_required`. If `requested`, the body MUST include `question` specifying the reply sought. `not_required` means the sender needs no reply but permits one; omission expresses no preference. Neither value obliges a reply or changes existing authority or reporting requirements. An `amendment_notice` does not itself change a session's agreed version.
 
 **SCP-MSG-004:** Vernaculum standardises communicative acts, not domain-specific operations. A request MUST give enough information to identify the intended action, target, constraints, and necessary references. A response MUST truthfully report its outcome and, where relevant, evidence, limitations, unresolved issues, and unperformed checks. Clarifications and errors MUST identify their triggering concern. Agents MUST NOT claim to have executed unperformed work. A receiver MUST seek clarification before executing a requested operation whose meaning remains ambiguous.
 
@@ -188,7 +188,7 @@
 
 **SCP-CHANGE-001:** The core protocol is amended only through its canonical document. Every proposal MUST identify a concrete deficiency and prefer deletion, consolidation, clarification, or an external extension to new core rules. Growth is permitted only where an identified core function cannot otherwise be specified adequately, or where additional words remove material ambiguity. Protocol syntax does not authorise a proposal.
 
-**SCP-CHANGE-002:** Distinguish peer-agreed external extensions from changes to the core, and classify proposed core changes as compatible, breaking, or governance-affecting according to their actual effects. Agents MAY create mutually agreed namespaced extensions within existing permissions and MAY prepare proposed core edits in separate, explicitly non-authoritative drafts or branches. Editing the authoritative canonical core or adopting a proposed core revision as governing protocol requires explicit owner approval, including for compatible changes. Breaking changes require an explicit migration or compatibility decision; no change may redefine authority by being labelled compatible.
+**SCP-CHANGE-002:** Distinguish peer-agreed external extensions from core changes; classify proposed core changes by actual effect as compatible, breaking, or governance-affecting. Within existing permissions, agents MAY create mutually agreed namespaced extensions and prepare core edits in separate, explicitly non-authoritative drafts or branches. Editing the canonical core or adopting a proposed revision as governing protocol requires explicit owner approval, even for compatible changes. Breaking changes require an explicit migration or compatibility decision; labelling a change compatible cannot redefine authority.
 
 **SCP-CHANGE-003:** Each material amendment MUST identify its author, purpose, affected rules, compatibility effects, required approval, and any migration or rollback. Each increase in normative text MUST identify the necessity and explain why a shorter equivalent edit is insufficient. A `protocol_change` record or Git history MAY preserve this information; no separate registry is required.
 

@@ -33,7 +33,7 @@ A well-formed YAML message is **not** proof of sender identity, execution permis
 
 ## Current status and prerequisites
 
-**Version:** `1.1.1`  
+**Version:** `1.2.0`<br>
 **Status:** Accepted / Active / Stable.
 
 This repository provides a voluntary, agent-governed communication specification, not an installed runtime. Participating agents read the complete [canonical specification on main](https://github.com/dfdy/vernaculum-scp-ms/blob/main/PROTOCOL.md) before claiming adherence. A second agent and an authorised communication channel must be available separately. Vernaculum requires no context loader, bootstrap verifier or preflight gate. Minimum-sufficient constrains the specification’s own size and complexity without sacrificing precision or completeness.
@@ -60,7 +60,7 @@ The agents handle negotiation and YAML exchange; you use ordinary language. Prot
 If you want agents in a project to use Vernaculum, consider adding the following section to that project's `AGENTS.md` or equivalent startup instructions. Keep existing project instructions and permissions intact. This is optional adoption guidance, not an installer or a guarantee of automatic loading.
 
 ```markdown
-## Vernaculum SCP:MS v1.1.1
+## Vernaculum SCP:MS v1.2.0
 
 Status: Accepted / Active / Stable.
 
@@ -97,7 +97,7 @@ Agents may mutually agree on optional namespaced extensions of the form `x.<name
 
 ## Where to look
 
-- [PROTOCOL.md](./PROTOCOL.md) — the complete v1.1.1 specification; the [main-branch publication](https://github.com/dfdy/vernaculum-scp-ms/blob/main/PROTOCOL.md) is canonical.
+- [PROTOCOL.md](./PROTOCOL.md) — the complete v1.2.0 specification; the [main-branch publication](https://github.com/dfdy/vernaculum-scp-ms/blob/main/PROTOCOL.md) is canonical.
 - [OVERVIEW.md](./OVERVIEW.md) — non-authoritative message and durable-record structure trees.
 - [Tool ecosystem exploration](./docs/tool-ecosystem-exploration.md) — possible uses of adjacent communication, orchestration, policy and evaluation tools.
 
